@@ -1,0 +1,15 @@
+C:\Users\Fran\Documents\EOI2026\04_NetTestingAbril\Proyectos\Ejemplos1704\Ejemplos1704\bin\Debug\net10.0\Ejemplos1704.exe
+C:\Users\Fran\Documents\EOI2026\04_NetTestingAbril\Proyectos\Ejemplos1704\Ejemplos1704\bin\Debug\net10.0\Ejemplos1704.deps.json
+C:\Users\Fran\Documents\EOI2026\04_NetTestingAbril\Proyectos\Ejemplos1704\Ejemplos1704\bin\Debug\net10.0\Ejemplos1704.runtimeconfig.json
+C:\Users\Fran\Documents\EOI2026\04_NetTestingAbril\Proyectos\Ejemplos1704\Ejemplos1704\bin\Debug\net10.0\Ejemplos1704.dll
+C:\Users\Fran\Documents\EOI2026\04_NetTestingAbril\Proyectos\Ejemplos1704\Ejemplos1704\bin\Debug\net10.0\Ejemplos1704.pdb
+C:\Users\Fran\Documents\EOI2026\04_NetTestingAbril\Proyectos\Ejemplos1704\Ejemplos1704\obj\Debug\net10.0\Ejemplos1704.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Fran\Documents\EOI2026\04_NetTestingAbril\Proyectos\Ejemplos1704\Ejemplos1704\obj\Debug\net10.0\Ejemplos1704.AssemblyInfoInputs.cache
+C:\Users\Fran\Documents\EOI2026\04_NetTestingAbril\Proyectos\Ejemplos1704\Ejemplos1704\obj\Debug\net10.0\Ejemplos1704.AssemblyInfo.cs
+C:\Users\Fran\Documents\EOI2026\04_NetTestingAbril\Proyectos\Ejemplos1704\Ejemplos1704\obj\Debug\net10.0\Ejemplos1704.csproj.CoreCompileInputs.cache
+C:\Users\Fran\Documents\EOI2026\04_NetTestingAbril\Proyectos\Ejemplos1704\Ejemplos1704\obj\Debug\net10.0\Ejemplos1704.sourcelink.json
+C:\Users\Fran\Documents\EOI2026\04_NetTestingAbril\Proyectos\Ejemplos1704\Ejemplos1704\obj\Debug\net10.0\Ejemplos1704.dll
+C:\Users\Fran\Documents\EOI2026\04_NetTestingAbril\Proyectos\Ejemplos1704\Ejemplos1704\obj\Debug\net10.0\refint\Ejemplos1704.dll
+C:\Users\Fran\Documents\EOI2026\04_NetTestingAbril\Proyectos\Ejemplos1704\Ejemplos1704\obj\Debug\net10.0\Ejemplos1704.pdb
+C:\Users\Fran\Documents\EOI2026\04_NetTestingAbril\Proyectos\Ejemplos1704\Ejemplos1704\obj\Debug\net10.0\Ejemplos1704.genruntimeconfig.cache
+C:\Users\Fran\Documents\EOI2026\04_NetTestingAbril\Proyectos\Ejemplos1704\Ejemplos1704\obj\Debug\net10.0\ref\Ejemplos1704.dll
