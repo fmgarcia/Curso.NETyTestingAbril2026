@@ -1,3 +1,37 @@
-.vs
-\obj
-\bin
+# Ignorar carpetas de compilación en cualquier nivel (recursivo)
+**/[Bb]in/
+**/[Oo]bj/
+**/[Bb]uild/
+
+# Ignorar directorios de Visual Studio en cualquier nivel
+**/.vs/
+**/.vscode/
+
+# Archivos de usuario y configuraciones (recursivo)
+**/*.user
+**/*.userosscache
+**/*.suo
+**/*.sln.docstates
+**/*.userprefs
+
+# NuGet (recursivo)
+**/packages/
+!**/packages/build/
+
+# Resultados de pruebas (recursivo)
+**/TestResults/
+**/*.trx
+**/*.testsettings
+
+# Archivos de sistema y logs
+**/.DS_Store
+**/Thumbs.db
+**/*.log
+
+# Perfiles de diagnóstico
+**/*.dotCover
+**/*.psess
+**/*.vsp
+**/*.vspx
+**/*.diag
+**/*.diagsession
