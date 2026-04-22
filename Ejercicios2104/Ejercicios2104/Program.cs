@@ -8,7 +8,8 @@ public static class Program
         //Ejercicio1();  // Llamamos a la función para ejecutar el ejercicio1
         //Ejercicio2();
         //Ejercicio3();
-        Ejercicio4();
+        //Ejercicio4();
+        Ejercicio5();
     }
 
     static void Ejercicio1()
@@ -73,9 +74,27 @@ public static class Program
         Console.WriteLine("Introduce tu nombre: ");
         string nombre = Console.ReadLine();
         Console.WriteLine("Introduce tu edad: ");
-        int edad = Convert.ToInt32(Console.ReadLine());
+        var edad = Console.ReadLine();
+        if (int.TryParse(edad, out int edadCorrecta))
+        {
+            edadCorrecta = Convert.ToInt32(edad);
+        }
+        else
+        {
+            Console.WriteLine("el valor introducido no es valido profavor introduzca un valor numerico para tu edad.");
+            Console.WriteLine("EJEMPLO 20 ");
+        }
         Console.WriteLine("Introduce tu altura (m): ");
-        double altura = Convert.ToDouble(Console.ReadLine());
+        string altura = Console.ReadLine();
+        if (double.TryParse(altura, out double alturaCorrecta))
+        {
+            alturaCorrecta = Convert.ToDouble(altura);
+        }
+        else
+        {
+            Console.WriteLine("el valor introducido no es valido profavor introduzca un valor numerico para tu altura.");
+            Console.WriteLine("EJEMPLO 1.75 ");
+        }
         Console.WriteLine("Introduce tu ciudad: ");
         string ciudad = Console.ReadLine();
 
