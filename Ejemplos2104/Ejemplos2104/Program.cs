@@ -17,6 +17,7 @@ else
 //int numero = null; // Esto no es válido, ya que int no puede ser nulo
 int? edad = null;
 
+edad = 49; // Asignamos un valor a la variable nullable
 
 if (edad.HasValue) // Verificamos si la variable nullable tiene un valor
 {
@@ -26,4 +27,5 @@ else
 {
     Console.WriteLine("La edad no ha sido asignada."); // Si no tiene un valor, mostramos un mensaje indicando que no ha sido asignada
 }
+
 
