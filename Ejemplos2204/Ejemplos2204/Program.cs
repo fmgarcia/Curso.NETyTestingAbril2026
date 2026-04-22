@@ -70,3 +70,96 @@ Console.WriteLine($"El nombre es Fran? {nombre == "Fran"}"); // El operador == c
 Console.WriteLine($"La edad es 25 y se llama Fran? {edad == 25 && nombre == "Fran"}"); // El operador && (AND lógico) devuelve true solo si ambas condiciones son verdaderas. En este caso, edad es 25, pero el nombre es "Francisco", por lo que la comparación es falsa.
 Console.WriteLine($"La edad es 25 o se llama Fran? {edad == 25 || nombre == "Fran"}"); // El operador || (OR lógico) devuelve true si al menos una de las condiciones es verdadera. En este caso, edad es 25, por lo que la comparación es verdadera.
 Console.WriteLine($"No se llama Fran? {!(nombre == "Fran")}"); // El operador ! (NOT lógico) invierte el valor de la condición. En este caso, nombre es "Francisco", por lo que la comparación es verdadera.
+
+// Operador ternario (condicional)
+// sintaxis: condicion ? valor_si_verdadero : valor_si_falso
+
+edad = 20;
+string mensaje = edad >= 18 ? "Eres mayor de edad" : "Eres menor de edad"; // El operador ternario evalúa la condición edad >= 18. Si es verdadera, asigna "Eres mayor de edad" a mensaje; si es falsa, asigna "Eres menor de edad".
+Console.WriteLine(mensaje); // Imprime el mensaje correspondiente según la edad.
+
+//if (edad >= 18)
+//    mensaje = "Eres mayor de edad";
+//else
+//    mensaje = "Eres menor de edad";
+int dinero = 1;
+Console.WriteLine($"Tengo {dinero} euro{(dinero == 1 ? "" : "s")}");
+Console.WriteLine($"Tengo {dinero} {(dinero == 1 ? "euro" : "euros")}");
+
+// Operadores nulos
+
+string? nombrePersona = null; // El operador ? después del tipo indica que la variable puede ser nula (nullable).
+string saludo = nombrePersona ?? "Desconocido"; // El operador ?? (null-coalescing) devuelve el valor de textoNulo si no es nulo; de lo contrario, devuelve "Desconocido".
+Console.WriteLine($"Hola {saludo}");
+
+int? numeroAlumnos = null;
+int numeroAlumnosFinal = numeroAlumnos ?? 30; // Si numeroAlumnos es nulo, se asigna el valor 30 a numeroAlumnosFinal.
+Console.WriteLine($"Número de alumnos: {numeroAlumnosFinal}");
+
+string? nombreCompleto = null;
+nombreCompleto ??= "Sin nombre"; // El operador ??= (null-coalescing assignment) asigna "Sin nombre" a nombreCompleto solo si nombreCompleto es nulo.
+Console.WriteLine($"Nombre completo: {nombreCompleto}");
+
+string cadena1 = null;
+//int longitudCadena1 = cadena1.Length; // Esto lanzará una excepción NullReferenceException porque cadena1 es nula.
+int longitudCadena1 = cadena1?.Length ?? 0;  // (cadena1==null) ? 0 : cadena1.Length. El operador ?. (null-conditional) devuelve null si cadena1 es nulo; de lo contrario, devuelve la longitud de la cadena. Luego, el operador ?? asigna 0 si el resultado es null.
+Console.WriteLine($"Hola la variable cadena tiene {longitudCadena1} caracteres.");
+
+// Precedencia de operadores
+int resultado = 10 + 5 * 2; // La multiplicación tiene mayor precedencia que la suma, por lo que se evalúa primero 5 * 2, dando 10, y luego se suma 10 + 10, resultando en 20.
+Console.WriteLine($"El resultado de la operación es: {resultado}"); // Si quieres cambiar el orden de evaluación, puedes usar paréntesis
+
+// operador is y pattern matching básico
+object valor = 10;
+valor = 20;
+valor = "hola";
+if (valor is int numeroValor) // El operador is verifica si valor es de tipo int. Si es así, asigna el valor a la variable numeroValor.
+{
+    Console.WriteLine($"El valor es un número entero: {numeroValor + 5}");
+}
+else
+{
+    Console.WriteLine("El valor no es un número entero.");
+}
+
+// Ejemplo de pattern matching con switch
+edad = 19;
+string categoria = edad switch
+{
+    < 13 => "Niño",
+    >= 13 and < 20 => "Adolescente",
+    >= 20 and < 65 => "Adulto",
+    _ => "Persona mayor"
+};
+Console.WriteLine(categoria);
+
+//string categoria2 = null;
+//switch (edad)
+//{
+//    case < 13:
+//        categoria2 = "Niño";
+//        break;
+//    case >= 13 and < 20:
+//        categoria2 = "Adolescente";
+//        break;
+//    case >= 20 and < 65:
+//        categoria2 = "Adulto";
+//        break;
+//    default:
+//        categoria2 = "Persona mayor";
+//        break;
+//}
+
+//string categoria3 = edad < 13 ? "Niño" :
+//                    edad >= 13 && edad < 20 ? "Adolescente" :
+//                    edad >= 20 && edad < 65 ? "Adulto" : "Persona mayor";
+
+//string categoria4 = null;
+//if (edad < 13)
+//    categoria4 = "Niño";
+//else if (edad >= 13 && edad < 20)
+//    categoria4 = "Adolescente";
+//else if (edad >= 20 && edad < 65)
+//    categoria4 = "Adulto";
+//else
+//    categoria4 = "Persona mayor";
