@@ -114,11 +114,48 @@ static void Ejercicio4b()
     Console.WriteLine($"NOTA:{resultado}");
 }
 
+//Crea un programa que, dada una cantidad de dinero, calcule el mínimo número de billetes y monedas necesarios (billetes de 50€, 20€, 10€, 5€ y monedas de 2€ y 1€):
+
+//Introduce la cantidad: 97
+
+//Billetes de 50€: 1
+//Billetes de 20€: 2
+//Billetes de 10€: 0
+//Billetes de 5€:  1
+//Monedas de 2€:   1
+//Monedas de 1€:   0
+
+//Pista: Usa la división entera / y el módulo %.
+static void Ejercicio5()
+{
+    Console.WriteLine("Introduce la cantidad: ");
+    int cantidad = (int.TryParse(Console.ReadLine(), out int numero)) ? numero : 0;
+    int billetes50 = cantidad / 50;
+    cantidad %= 50;  // cantidad = cantidad % 50; también es válido
+    int billetes20 = cantidad / 20;
+    cantidad %= 20;
+    int billetes10 = cantidad / 10;
+    cantidad %= 10;
+    int billetes5 = cantidad / 5;
+    cantidad %= 5;
+    int monedas2 = cantidad / 2;
+    cantidad %= 2;
+    int monedas1 = cantidad;
+
+    Console.WriteLine($"Billetes de 50€: {billetes50}");
+    Console.WriteLine($"Billetes de 20€: {billetes20}");
+    Console.WriteLine($"Billetes de 10€: {billetes10}");
+    Console.WriteLine($"Billetes de 5€: {billetes5}");
+    Console.WriteLine($"Monedas de 2€: {monedas2}");
+    Console.WriteLine($"Monedas de 1€: {monedas1}");
+}
+
 //Ejercicio1();
 //Ejercicio2();
 //Ejercicio2b();
 //Ejercicio3();
 //Ejercicio3b();
 //Ejercicio3c();
-Ejercicio4();
+//Ejercicio4();
 //Ejercicio4b();
+Ejercicio5();
