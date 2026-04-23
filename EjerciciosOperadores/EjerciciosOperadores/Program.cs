@@ -7,6 +7,8 @@
 //  15 / 4 = 3.75
 //  15 % 4 = 3
 
+using System.IO.Pipelines;
+
 static void Ejercicio1()
 {
     Console.WriteLine("Introduce el primer número:");
@@ -52,7 +54,7 @@ static void Ejercicio2b()
 static void Ejercicio3()
 {
     Console.WriteLine("Introduzca su edad en valor numérico: ");
-    int edad = (int.TryParse(Console.ReadLine(), out int numero)) ? numero : -1000;
+    int edad = (int.TryParse(Console.ReadLine(), out int numero)) ? numero : -1000; // Si la conversión falla, asignamos un valor fuera del rango válido para indicar que no se ha introducido un número válido
     Console.WriteLine($"{(edad is -1000 or < 0 or > 100 ? "No ha introducido un número válido"
                                  : edad < 18 ? "menor de edad"
                                  : "mayor de edad")}");
@@ -73,9 +75,50 @@ static void Ejercicio3c()
 }
 
 
+//Pide una nota numérica (0-10) y muestra la calificación usando una expresión switch:
+
+//0 - 4.99: Suspenso
+//5-5.99: Aprobado
+//6-6.99: Bien
+//7-8.99: Notable
+//9-10: Sobresaliente
+static void Ejercicio4()
+{
+    Console.WriteLine("introduzca la nota ");
+    double? nota = (double.TryParse(Console.ReadLine(), out double numero)) ? numero : null;
+    string resultado = nota switch
+    {
+        >= 0 and < 5 => "Suspenso",
+        >= 5 and < 6 => "Aprobado",
+        >= 6 and < 7 => "Bien",
+        >= 7 and < 9 => "Notable",
+        >= 9 and <= 10 => "Sobresaliente",
+        _ => "Incorrecta o fuera de rango"
+    };
+    Console.WriteLine($"NOTA: {resultado}");
+}
+
+static void Ejercicio4b()
+{
+    Console.WriteLine("introduzca la nota ");
+    double nota = Convert.ToDouble(Console.ReadLine());
+    string resultado = nota switch
+    {
+        >= 0 and < 5 => "Suspenso",
+        >= 5 and < 6 => "Aprobado",
+        >= 6 and < 7 => "Bien",
+        >= 7 and < 9 => "Notable",
+        >= 9 and <= 10 => "Sobresaliente",
+        _ => "Nota fuera de rango"
+    };
+    Console.WriteLine($"NOTA:{resultado}");
+}
+
 //Ejercicio1();
 //Ejercicio2();
 //Ejercicio2b();
-Ejercicio3();
+//Ejercicio3();
 //Ejercicio3b();
 //Ejercicio3c();
+Ejercicio4();
+//Ejercicio4b();
