@@ -48,7 +48,34 @@ static void Ejercicio2b()
     Console.WriteLine($"El área del círculo es: {area:F2}");
 }
 
+// Usando el operador ternario, crea un programa que pida la edad y muestre si la persona es “menor de edad” o “mayor de edad”.
+static void Ejercicio3()
+{
+    Console.WriteLine("Introduzca su edad en valor numérico: ");
+    int edad = (int.TryParse(Console.ReadLine(), out int numero)) ? numero : -1000;
+    Console.WriteLine($"{(edad is -1000 or < 0 or > 100 ? "No ha introducido un número válido"
+                                 : edad < 18 ? "menor de edad"
+                                 : "mayor de edad")}");
+}
+
+static void Ejercicio3b()
+{
+    Console.WriteLine("Introduzca su edad: ");
+    Console.WriteLine($"Usted es {(int.Parse(Console.ReadLine()) < 18 ? "menor de edad" : "mayor de edad")}");
+}
+static void Ejercicio3c()
+{
+    Console.WriteLine("Introduzca su edad: ");
+    int edad = int.Parse(Console.ReadLine());
+    Console.WriteLine($"Usted es {(edad is < 0 or > 100 ? "edad no válida"
+                                 : edad < 18 ? "menor de edad"
+                                 : "mayor de edad")}");
+}
+
 
 //Ejercicio1();
-Ejercicio2();
+//Ejercicio2();
 //Ejercicio2b();
+Ejercicio3();
+//Ejercicio3b();
+//Ejercicio3c();
