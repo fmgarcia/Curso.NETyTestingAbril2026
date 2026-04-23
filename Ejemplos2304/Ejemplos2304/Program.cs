@@ -89,7 +89,99 @@ static void EjemploSwitchClasico()
     Console.WriteLine("Fin del programa");
 }
 
+static void EjemploSwitchExpresion() // Disponible a partir de C# 8.0
+{
+    Console.Write("Introduce un número del 1 al 7 para conocer el día de la semana: ");
+    int dia = int.Parse(Console.ReadLine()!);
+    string nombreDia = dia switch
+    {
+        1 => "Lunes",
+        2 => "Martes",
+        3 => "Miércoles",
+        4 => "Jueves",
+        5 => "Viernes",
+        6 => "Sábado",
+        7 => "Domingo",
+        _ => "Número inválido. Debe estar entre 1 y 7."
+    };
+    Console.WriteLine(nombreDia);
+    Console.WriteLine("Fin del programa");
+}
+
+static void EjemploSwitchTypePattern() // Disponible a partir de C# 14.0, permite usar patrones de tipo en switch expressions
+{
+    Console.Write("Introduce un número del 1 al 7 para conocer si es un día laborable: ");
+    int dia = int.Parse(Console.ReadLine()!);
+    string resultado = dia switch
+    {
+        >= 1 and <= 5 => "Es un día laborable.",
+        6 or 7 => "No es un día laborable.",
+        _ => "Número inválido. Debe estar entre 1 y 7."
+    };
+    Console.WriteLine(resultado);
+    Console.WriteLine("Fin del programa");
+}
+
+static void EjemploSwitchTypePatternWithWhen()  // Disponible a partir de C# 14.0, permite usar patrones de tipo en switch expressions con condiciones adicionales usando 'when'
+{
+    int nota = 85;
+    string clasificacion = nota switch
+    {
+        < 10 => "Es pequeño",
+        // El patrón 'when' permite agregar condiciones adicionales a los patrones de tipo
+        int n when n >= 100 => "Es muy grande",
+        _ => "número normal"
+    };
+}
+
+static void EjemploSwitchConObject()  // Disponible a partir de C# 14.0, permite usar patrones de tipo en switch expressions con objetos
+{
+    object valor = 3; // Puede ser cualquier tipo de dato
+    string resultado = valor switch
+    {
+        int n when n >= 1 && n <= 5 => "Es un número entre 1 y 5.",
+        int n when n == 6 || n == 7 => "Es un número entre 6 y 7.",
+        string s => $"Es una cadena: {s}",
+        _ => "Valor no reconocido."
+    };
+    Console.WriteLine(resultado);
+}
+
+static void EjemploSwitchMultiple() // Disponible a partir de C# 14.0, permite usar patrones de tupla en switch expressions
+{
+    int x = 1, y = 0;
+    string posicion = (x, y) switch
+    {
+        (0, 0) => "Origen",
+        (0, _) => "Eje Y",
+        (_, 0) => "Eje X",
+        _ => "Cuadrante"
+    };
+    Console.WriteLine(posicion);
+}
+
+static void EjemploReadKey()
+{
+    Console.WriteLine("Presiona una tecla para continuar...");
+    char tecla = Console.ReadKey().KeyChar;
+    Console.WriteLine($"\nHas presionado la tecla: {tecla}");
+}
+
+static void EjemploReadKey2()
+{
+    Console.WriteLine("Presiona una tecla para continuar...");
+    ConsoleKeyInfo tecla = Console.ReadKey();
+    Console.WriteLine($"\nHas presionado la tecla: {tecla.KeyChar}");
+}
+
 //EjemploIf();
 //EjemploIfElse();
 //EjemploIfElseIfElse();
-EjemploSwitchClasico();
+//EjemploSwitchClasico();
+//EjemploSwitchExpresion();
+//EjemploSwitchTypePattern();
+//EjemploSwitchTypePatternWithWhen();
+//EjemploSwitchConObject();
+//EjemploSwitchMultiple();
+//EjemploReadKey();
+//EjemploReadKey2();
