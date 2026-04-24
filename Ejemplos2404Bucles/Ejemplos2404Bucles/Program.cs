@@ -60,7 +60,7 @@ static void EjemploDoWhile()
 
 static void DoWhileMenu()
 {
-    string opcion = "0";
+    string opcion = "";
     do
     {
         Console.WriteLine("\n═══ MENÚ ═══");
