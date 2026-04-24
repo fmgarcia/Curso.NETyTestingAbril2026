@@ -260,6 +260,63 @@ static void SeraInfinito()
     }
 }
 
+static void EjemploBubleAnidado()
+{
+    // Tablas de multiplicar del 1 al 5
+    for (int tabla = 1; tabla <= 5; tabla++)
+    {
+        Console.WriteLine($"\n═══ Tabla del {tabla} ═══");
+        for (int i = 1; i <= 10; i++)
+        {
+            Console.WriteLine($"  {tabla} x {i,2} = {tabla * i,3}");
+        }
+        Console.WriteLine($"═══ FIN Tabla del {tabla} ═══");
+    }
+}
+
+static void EjercicioRectanguloAsteriscos()
+{
+    int filas = 5;
+    int columnas = 10;
+    for (int i = 0; i < filas; i++)
+    {
+        Console.Write("<"); // Indentación para el rectángulo
+        for (int j = 0; j < columnas; j++)
+        {
+            Console.Write("*");
+        }
+        Console.WriteLine(">"); // Cierre del rectángulo después de cada fila
+    }
+}
+
+static void EjercicioTrianguloAsteriscos()
+{
+    int filas = 5;
+
+    for (int i = 1; i <= filas; i++)
+    {
+        for (int j = 0; j < i; j++)
+        {
+            Console.Write("* ");
+        }
+        Console.WriteLine();
+    }
+
+    // Salida:
+    // *
+    // * *
+    // * * *
+    // * * * *
+    // * * * * *
+}
+
+static void Aleatorio()
+{
+    Random random = new Random();
+    int secreto = random.Next(1, 101);  // Número entre 1 y 100
+    Console.WriteLine($"El número secreto es: {secreto}");
+}
+
 //EjemploWhile();
 //WhileMenu();
 //EjemploDoWhile();
@@ -274,3 +331,7 @@ static void SeraInfinito()
 //FlagWhile();
 //NoFlagWhile();
 //SeraInfinito();
+//EjemploBubleAnidado();
+//EjercicioRectanguloAsteriscos();
+//EjercicioTrianguloAsteriscos();
+Aleatorio();
