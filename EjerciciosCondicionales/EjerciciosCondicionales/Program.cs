@@ -91,7 +91,7 @@ static void Ejercicio10Parte21()
     Console.WriteLine("Introduce una letra: ");
     char letra = Console.ReadKey().KeyChar;
     Console.WriteLine();
-    string resultado = letra switch
+    string resultado = letra switch  // Expresión switch disponible a partir de C# 8.0, pero con mejoras en C# 14.0
     {
         '.' or ',' or ';' or ':' => "Es un signo de puntuación.",
         >= '0' and <= '9' => "Es una cifra numérica.",
