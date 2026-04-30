@@ -1,6 +1,8 @@
 ﻿
 //El programa “piensa” un número aleatorio entre 1 y 100. 
 //El usuario tiene que adivinarlo. El programa dice “Más alto” o “Más bajo” tras cada intento
+using System.Globalization;
+
 static void EjercicioAdivinarNumero()
 {
     Random random = new Random();  // Crear una instancia de la clase Random para generar números aleatorios
@@ -81,7 +83,146 @@ static void EjercicioAdivinarNumeroConMejoras()
 
 }
 
+//Calcula el factorial de un número usando un bucle for:
+// 5! = 5 × 4 × 3 × 2 × 1 = 120
+static void FactorialFor()
+{
+
+    int acumulador = 1;
+
+    for (int i = 2; i <= 5; i++)
+    {
+        acumulador *= i;
+    }
+
+    //for (int i = 5; i >= 2; i--)
+    //{
+    //    acumulador = acumulador * i;
+    //}
+
+    Console.WriteLine($"El factorial de 5 es: {acumulador}");
+}
+
+// Pide un número al usuario y determina si es primo (solo divisible por 1 y por sí mismo).
+static void NumeroPrimo()
+{
+    bool esPrimo = true; // Variable para indicar si el número es primo o no, presupongo que es primo
+
+    Console.WriteLine("Introduce un número: ");
+    int numero = int.Parse(Console.ReadLine()!); // Leer el número del usuario y convertirlo a entero
+
+    for (int i = 2; i < numero; i++) // Recorro los números desde el 2 hasta el número introducido por el usuario
+    {
+        if (numero % i == 0) // Si el número es divisible por alguno de esos números, entonces no es primo
+        {
+            esPrimo = false;
+            break; // Salir del bucle si se encuentra un divisor
+        }
+    }
+
+    if (esPrimo)
+    {
+        Console.WriteLine("El número es primo.");
+    }
+    else
+    {
+        Console.WriteLine("El número no es primo.");
+    }
+}
+static void NumeroPrimoMejorado()
+{
+    bool esPrimo = true; // Variable para indicar si el número es primo o no, presupongo que es primo
+
+    Console.WriteLine("Introduce un número: ");
+    int numero = int.Parse(Console.ReadLine()!); // Leer el número del usuario y convertirlo a entero
+
+    for (int i = 2; i <= (numero / 2); i++) // Recorro los números desde el 2 hasta el número introducido por el usuario
+    {
+        if (numero % i == 0) // Si el número es divisible por alguno de esos números, entonces no es primo
+        {
+            esPrimo = false;
+            break; // Salir del bucle si se encuentra un divisor
+        }
+    }
+    Console.WriteLine($"El número {(esPrimo ? "es" : "no es")} primo.");
+}
+
+//Crea esta pirámide pidiendo el número de filas:
+
+//    1
+//   1 2
+//  1 2 3
+// 1 2 3 4
+//1 2 3 4 5
+static void PiramideNumeros()
+{
+    Console.WriteLine("Introduce un número: ");
+    int numero = int.Parse(Console.ReadLine()!); // Leer el número del usuario y convertirlo a entero
+
+    for (int i = 1; i <= numero; i++) // Recorro las filas de la pirámide
+    {
+        for (int j = 1; j <= numero - i; j++)  //  Imprimo los espacios en blanco antes de los números
+        {
+            Console.Write(" ");
+        }
+        for (int k = 1; k <= i; k++) // Imprimo los números de cada fila
+        {
+            Console.Write(k + " ");
+        }
+        Console.WriteLine(); // Salto de línea después de cada fila
+    }
+}
+
+//Imprime los números del 1 al 100, pero:
+
+//Si es múltiplo de 3, imprime “Fizz”
+//Si es múltiplo de 5, imprime “Buzz”
+//Si es múltiplo de ambos, imprime “FizzBuzz”
+static void FizzBuzz()
+{
+    for (int i = 1; i <= 100; i++)
+    {
+        if (i % 3 == 0 && i % 5 == 0)
+        {
+            Console.WriteLine("FizzBuzz");
+        }
+        else if (i % 3 == 0)
+        {
+            Console.WriteLine("Fizz");
+        }
+        else if (i % 5 == 0)
+        {
+            Console.WriteLine("Buzz");
+        }
+        else
+        {
+            Console.WriteLine(i);
+        }
+    }
+}
+
+static void FizzBuzzMejorado()
+{
+    for (int i = 1; i <= 100; i++)
+    {
+        string resultado = (i % 3 == 0, i % 5 == 0) switch // disponible a partir de C# 14.0, permite evaluar múltiples condiciones en una sola expresión switch
+        {
+            (true, true) => "FizzBuzz",
+            (true, false) => "Fizz",
+            (false, true) => "Buzz",
+            _ => i.ToString()
+        };
+        Console.WriteLine(resultado);
+    }
+}
+
 
 //EjercicioAdivinarNumero();
-EjercicioAdivinarNumeroConMejoras();
+//EjercicioAdivinarNumeroConMejoras();
+//FactorialFor();
+//NumeroPrimo();
+//NumeroPrimoMejorado();
+//PiramideNumeros();
+//FizzBuzz();
+FizzBuzzMejorado();
 
