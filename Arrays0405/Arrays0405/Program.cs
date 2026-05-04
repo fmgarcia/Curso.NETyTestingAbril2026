@@ -1,4 +1,4 @@
-﻿
+﻿using System.Linq;
 
 static void DeclaracionArrays1()
 {
@@ -83,8 +83,62 @@ static void RangosSlices()
     int[] partetresultimos = numeros[^3..]; // Crea un nuevo array con los elementos desde el tercer elemento desde el final hasta el último elemento del array original utilizando la sintaxis de rango (desde la versión 8.0 de C#)
 
     // Mostrar los nuevos arrays
-    Console.WriteLine("Parte 1:");
+    Console.WriteLine($"Números: {string.Join(", ", numeros)}");
+    Console.WriteLine($"Parte 1: {string.Join(", ", parte1)}");
+    Console.WriteLine($"Números (slicing): {string.Join(", ", parte1slicing)}");
+    Console.WriteLine($"Números (parte02): {string.Join(", ", parte02)}");
+    Console.WriteLine($"Números (parte2f): {string.Join(", ", parte2f)}");
+    Console.WriteLine($"Números (partetresultimos): {string.Join(", ", partetresultimos)}");
 
+}
+
+static void EjemplosClaseArray()
+{
+    int[] numeros = { 10, -8, 25, 40, -22 };
+    // Ordenar el array utilizando el método Sort de la clase Array
+    Array.Sort(numeros); // Ordena el array quedando [-22, -8, 10, 25, 40]. Ordena de menor a mayor.
+    Console.WriteLine($"Ordenado: {string.Join(", ", numeros)}");
+    // Invertir el array utilizando el método Reverse de la clase Array
+    Array.Reverse(numeros); // Invierte el orden del array quedando [40, 25, 10, -8, -22]
+    Console.WriteLine($"Invertido: {string.Join(", ", numeros)}");
+    // Buscar un elemento en el array utilizando el método IndexOf de la clase Array
+    int indice = Array.IndexOf(numeros, 25); // Busca el índice del número 25 en el array. Si el número no se encuentra, devuelve -1.
+    Console.WriteLine(indice != -1 ? $"Número encontrado en la posición {indice}" : "Número no encontrado");
+    // Verificar si un elemento existe en el array utilizando el método Exists de la clase Array
+    bool existe = Array.Exists(numeros, elemento => elemento == 25);
+    Console.WriteLine(existe ? "Número encontrado" : "Número no encontrado");
+    // Verificar si un elemento existe en el array utilizando el método Contains de la clase Array
+    Console.WriteLine(numeros.Contains(25) ? "Número encontrado" : "Número no encontrado");
+    // Encontrar un elemento que cumpla una condición utilizando el método Find de la clase Array
+    int[] numeros2 = { 10, -8, 25, 40, -22 };
+    int numeroEncontrado = Array.Find(numeros2, elemento => elemento > 20); // Busca el primer número en el array que sea mayor que 20. Si no se encuentra ningún número que cumpla la condición, devuelve el valor predeterminado del tipo (en este caso, 0).
+    Console.WriteLine($"El número encontrado que cumple la condición es: {numeroEncontrado}");  // 25 es el primer número en el array que es mayor que 20, por lo que se imprime ese número. Si no hubiera ningún número mayor que 20, se imprimiría 0.
+    string[] nombres = { "Alice", "Bob", "Char" };
+    string nombreMas5letras = Array.Find(nombres, nombre => nombre.Length > 5); // Busca el primer nombre en el array que tenga más de 5 letras. Si no se encuentra ningún nombre que cumpla la condición, devuelve null.
+    Console.WriteLine(nombreMas5letras != null ? $"Nombre encontrado: {nombreMas5letras}" : "Nombre no encontrado");
+}
+
+static void EncontrarElementoArrayEstructura()
+{
+    int[] numeros = { 10, -8, 25, 40, -22 };
+    int numeroBuscado = 25;
+    bool encontrado = false;
+    for (int i = 0; i < numeros.Length; i++)
+    {
+        if (numeros[i] == numeroBuscado)
+        {
+            encontrado = true;
+            break; // Sale del bucle una vez que se encuentra el número
+        }
+    }
+    if (encontrado)
+    {
+        Console.WriteLine("Número encontrado.");
+    }
+    else
+    {
+        Console.WriteLine("Número no encontrado.");
+    }
 
 }
 
@@ -139,6 +193,8 @@ static void Ejercicio1b()
 //DeclaracionArrays1();
 //AccederModificar();
 //RecorrerArrays();
-Ejercicio1();
-Ejercicio1b();
+//RangosSlices();
+//Ejercicio1();
+//Ejercicio1b();
+EjemplosClaseArray();
 
