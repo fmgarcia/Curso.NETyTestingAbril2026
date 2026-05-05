@@ -273,51 +273,7 @@ static void EjemploArraysDentados()
 }
 
 
-//Ejercicio 1: Media de notas
-//Pide al usuario cuántas notas quiere introducir, lee las notas y calcula la media, la nota más alta y la más baja.
-static void Ejercicio1()
-{
-    Console.Write("¿Cuántas notas quieres introducir? ");
-    int cantidadNotas = int.Parse(Console.ReadLine()!);
-    double[] notas = new double[cantidadNotas];
-    for (int i = 0; i < cantidadNotas; i++)  // En este for se itera desde 0 hasta cantidadNotas - 1, lo que permite al usuario introducir la cantidad de notas especificada. En cada iteración, se solicita al usuario que introduzca una nota, que se almacena en el array notas en la posición correspondiente al índice i.
-    {
-        Console.Write($"Introduce la nota {i + 1}: ");
-        notas[i] = double.Parse(Console.ReadLine()!);
-    }
-    // Calcular la media, la nota más alta y la más baja
-    double suma = 0;
-    double notaMaxima = notas[0];
-    double notaMinima = notas[0];
-    foreach (double nota in notas)  // En este foreach se recorre cada nota en el array notas para calcular la suma total de las notas, así como para determinar la nota más alta y la más baja. La variable suma se incrementa con cada nota, mientras que notaMaxima y notaMinima se actualizan si se encuentra una nota mayor o menor respectivamente.
-    {
-        suma += nota;
-        if (nota > notaMaxima) notaMaxima = nota;
-        if (nota < notaMinima) notaMinima = nota;
-    }
-    double media = suma / cantidadNotas;
-    Console.WriteLine($"La media de las notas es: {media}");
-    Console.WriteLine($"La nota más alta es: {notaMaxima}");
-    Console.WriteLine($"La nota más baja es: {notaMinima}");
-}
 
-static void Ejercicio1b()
-{
-    Console.Write("¿Cuántas notas quieres introducir? ");
-    int cantidadNotas = int.Parse(Console.ReadLine()!);
-    double[] notas = new double[cantidadNotas];
-    for (int i = 0; i < cantidadNotas; i++)  // En este for se itera desde 0 hasta cantidadNotas - 1, lo que permite al usuario introducir la cantidad de notas especificada. En cada iteración, se solicita al usuario que introduzca una nota, que se almacena en el array notas en la posición correspondiente al índice i.
-    {
-        Console.Write($"Introduce la nota {i + 1}: ");
-        notas[i] = double.Parse(Console.ReadLine()!);
-    }
-    double notaMaxima = notas.Max();
-    double notaMinima = notas.Min();
-    double media = notas.Average();
-    Console.WriteLine($"La media de las notas es: {media}");
-    Console.WriteLine($"La nota más alta es: {notaMaxima}");
-    Console.WriteLine($"La nota más baja es: {notaMinima}");
-}
 
 
 //DeclaracionArrays1();
