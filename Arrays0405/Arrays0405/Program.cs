@@ -221,9 +221,9 @@ static void CalculoNotas2()
 {
     // 3 alumnos, 4 asignaturas
     double[,] notas = {
-    { 7.5, 8.0, 6.5, 9.0 },   // Alumno 0
-    { 5.0, 6.5, 7.0, 8.5 },   // Alumno 1
-    { 9.0, 9.5, 8.0, 10.0 }   // Alumno 2
+        { 7.5, 8.0, 6.5, 9.0 },   // Alumno 0
+        { 5.0, 6.5, 7.0, 8.5 },   // Alumno 1
+        { 9.0, 9.5, 8.0, 10.0 }   // Alumno 2
     };
     string[] alumnos = { "Ana", "Luis", "María" };
     string[] asignaturas = { "Mates", "Lengua", "Inglés", "Ciencias" };
@@ -243,6 +243,33 @@ static void CalculoNotas2()
     }
     double mediaGeneral = sumaTotal / (alumnos.Length * asignaturas.Length);
     Console.WriteLine($"La media general de todas las notas es: {mediaGeneral:F2}");
+}
+
+static void EjemploArraysDentados()
+{
+    // Cada fila puede tener distinto número de elementos
+    int[][] jagged = new int[3][];
+    jagged[0] = new int[] { 1, 2 };
+    jagged[1] = new int[] { 3, 4, 5, 6 };
+    jagged[2] = new int[] { 7 };
+
+    // Forma directa
+    int[][] jagged2 = {
+    new[] { 1, 2 },
+    new[] { 3, 4, 5, 6 },
+    new[] { 7 }
+    };
+
+    // Recorrer
+    for (int i = 0; i < jagged2.Length; i++)
+    {
+        Console.Write($"Fila {i}: ");
+        for (int j = 0; j < jagged2[i].Length; j++)
+        {
+            Console.Write($"{jagged2[i][j]} ");
+        }
+        Console.WriteLine();
+    }
 }
 
 
