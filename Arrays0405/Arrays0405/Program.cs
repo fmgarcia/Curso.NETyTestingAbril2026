@@ -113,9 +113,35 @@ static void EjemplosClaseArray()
     int[] numeros2 = { 10, -8, 25, 40, -22 };
     int numeroEncontrado = Array.Find(numeros2, elemento => elemento > 20); // Busca el primer número en el array que sea mayor que 20. Si no se encuentra ningún número que cumpla la condición, devuelve el valor predeterminado del tipo (en este caso, 0).
     Console.WriteLine($"El número encontrado que cumple la condición es: {numeroEncontrado}");  // 25 es el primer número en el array que es mayor que 20, por lo que se imprime ese número. Si no hubiera ningún número mayor que 20, se imprimiría 0.
-    string[] nombres = { "Alice", "Bob", "Char" };
-    string nombreMas5letras = Array.Find(nombres, nombre => nombre.Length > 5); // Busca el primer nombre en el array que tenga más de 5 letras. Si no se encuentra ningún nombre que cumpla la condición, devuelve null.
+    string[] nombres = { "Alice", "Bob", "Charlie" };
+    string nombreMas5letras = Array.Find(nombres, nombre => nombre.Length > 5)!; // Busca el primer nombre en el array que tenga más de 5 letras. Si no se encuentra ningún nombre que cumpla la condición, devuelve null.
     Console.WriteLine(nombreMas5letras != null ? $"Nombre encontrado: {nombreMas5letras}" : "Nombre no encontrado");
+    string primerNombreComienzaA = Array.Find(nombres, nombre => nombre.StartsWith("A"))!; // Busca el primer nombre en el array que comience con la letra "A". Si no se encuentra ningún nombre que cumpla la condición, devuelve null.
+    Console.WriteLine(primerNombreComienzaA != null ? $"Nombre encontrado: {primerNombreComienzaA}" : "Nombre no encontrado");
+    string primerNombreContengaA = Array.Find(nombres, nombre => nombre.Contains("a"))!; // Busca el primer nombre en el array que contenga la letra "a". Si no se encuentra ningún nombre que cumpla la condición, devuelve null.
+    Console.WriteLine(primerNombreContengaA != null ? $"Nombre encontrado: {primerNombreContengaA}" : "Nombre no encontrado");
+    // Encontrar todos los elementos que cumplan una condición utilizando el método FindAll de la clase Array
+    int[] numeros3 = { 10, -8, 25, 40, -22 };
+    int[] numerosMayores20 = Array.FindAll(numeros3, elemento => elemento > 20); // Busca todos los números en el array que sean mayores que 20.
+    Console.WriteLine($"Números mayores que 20: {string.Join(", ", numerosMayores20)}");
+    // Rellenar un array con un valor específico utilizando el método Fill de la clase Array
+    int[] ceros = new int[5];
+    Array.Fill(ceros, 100); // Rellena el array con 100 en cada posición. El array ceros quedará con los valores [100, 100, 100, 100, 100].
+    Console.WriteLine($"Array rellenado con ceros: {string.Join(", ", ceros)}");
+    // Copiar un array utilizando el método Copy de la clase Array
+    int[] numerosOriginal = { 10, -8, 25, 40, -22 };
+    int[] numerosCopia = new int[numerosOriginal.Length];
+    Array.Copy(numerosOriginal, numerosCopia, numerosOriginal.Length); // Copia todos los elementos del array numerosOriginal al array numerosCopia.
+    Console.WriteLine($"Array copiado: {string.Join(", ", numerosCopia)}");
+    // Copiar un rango de un array utilizando el método CopyTo de la clase Array
+    int[] numeros4 = { 10, -8, 25, 40, -22 };
+    int[] rango = new int[3];
+    Array.Copy(numeros4, 1, rango, 0, 3); // Copia un rango de elementos del array numeros4 al array rango.
+    Console.WriteLine($"Rango copiado: {string.Join(", ", rango)}");
+    // Limpiar un array utilizando el método Clear de la clase Array
+    int[] numeros5 = { 10, -8, 25, 40, -22 };
+    Array.Clear(numeros5); // Limpia todos los elementos del array numeros5, estableciéndolos en el valor predeterminado (0 para int).
+    Console.WriteLine($"Array limpiado: {string.Join(", ", numeros5)}");
 }
 
 static void EncontrarElementoArrayEstructura()
@@ -140,6 +166,83 @@ static void EncontrarElementoArrayEstructura()
         Console.WriteLine("Número no encontrado.");
     }
 
+}
+
+
+static void ArraysMultidimensionales()
+{
+    int[,] matriz = new int[3, 3]; // Declaración de un array bidimensional (matriz) de enteros con 3 filas y 3 columnas
+    // Asignación de valores a la matriz
+    matriz[0, 0] = 1;
+    matriz[0, 1] = 2;
+    matriz[0, 2] = 3;
+    matriz[1, 0] = 4;
+    matriz[1, 1] = 5;
+    matriz[1, 2] = 6;
+    matriz[2, 0] = 7;
+    matriz[2, 1] = 8;
+    matriz[2, 2] = 9;
+
+    int[,] matriz2 = { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } }; // Declaración e inicialización de un array bidimensional (matriz) de enteros con valores específicos utilizando la sintaxis de inicialización de arrays.
+    // Recorrer la matriz utilizando bucles anidados
+    int filas = matriz.GetLength(0); // Obtiene el número de filas de la matriz
+    int columnas = matriz.GetLength(1); // Obtiene el número de columnas de la matriz
+    for (int i = 0; i < filas; i++) // GetLength(0) devuelve el número de filas
+    {
+        for (int j = 0; j < columnas; j++) // GetLength(1) devuelve el número de columnas
+        {
+            Console.Write($"{matriz[i, j]} ");
+        }
+        Console.WriteLine(); // Salto de línea después de cada fila
+    }
+
+}
+
+// Quiero almacenar los datos de las notas de varios estudiantes en un array multidimensional,
+// donde cada fila representa a un estudiante y cada columna representa una nota.
+// Luego, quiero calcular la media de cada estudiante y la media general de todas las notas.
+
+static void CalculoNotas()
+{
+    string[] estudiantes = { "Alice", "Alice", "Charlie" };
+    //string[,] notas = new string[estudiantes.Length, asignaturas.Length]; // Declaración de un array bidimensional para almacenar las notas de los estudiantes en diferentes asignaturas
+    double[][] notasAlumnos = {
+        new double[] { 8.5, 7, 9, 6 },
+        new double[] { 1, 1, 7, 9.2 },
+        new double[] { 9, 6.5, 1, 2 }
+    }; // Declaración e inicialización de un array bidimensional para almacenar las notas de los estudiantes en diferentes asignaturas utilizando la sintaxis de inicialización de arrays.
+
+    for (int i = 0; i < estudiantes.Length; i++)
+        Console.WriteLine($"{estudiantes[i]} tiene de media {notasAlumnos[i].Average():F2}");
+    Console.WriteLine($"La media general de todas las notas es: {notasAlumnos.SelectMany(notas => notas).Average():F2}"); // Calcula la media general de todas las notas utilizando LINQ. SelectMany se utiliza para aplanar el array bidimensional en una secuencia de notas individuales, y luego se calcula la media de esa secuencia utilizando Average().
+}
+
+static void CalculoNotas2()
+{
+    // 3 alumnos, 4 asignaturas
+    double[,] notas = {
+    { 7.5, 8.0, 6.5, 9.0 },   // Alumno 0
+    { 5.0, 6.5, 7.0, 8.5 },   // Alumno 1
+    { 9.0, 9.5, 8.0, 10.0 }   // Alumno 2
+    };
+    string[] alumnos = { "Ana", "Luis", "María" };
+    string[] asignaturas = { "Mates", "Lengua", "Inglés", "Ciencias" };
+
+    double sumaTotal = 0;
+
+    for (int i = 0; i < alumnos.Length; i++)
+    {
+        double suma = 0;
+        for (int j = 0; j < asignaturas.Length; j++)
+        {
+            suma += notas[i, j];
+            sumaTotal += notas[i, j];
+        }
+        double media = suma / asignaturas.Length;
+        Console.WriteLine($"{alumnos[i],-8} | Media: {media:F2}");
+    }
+    double mediaGeneral = sumaTotal / (alumnos.Length * asignaturas.Length);
+    Console.WriteLine($"La media general de todas las notas es: {mediaGeneral:F2}");
 }
 
 
@@ -196,5 +299,7 @@ static void Ejercicio1b()
 //RangosSlices();
 //Ejercicio1();
 //Ejercicio1b();
-EjemplosClaseArray();
+//EjemplosClaseArray();
+//ArraysMultidimensionales();
+CalculoNotas();
 
