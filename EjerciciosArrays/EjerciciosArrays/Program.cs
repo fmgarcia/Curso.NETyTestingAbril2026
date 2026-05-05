@@ -110,7 +110,6 @@ static void Ejercicio4b()
             sinDuplicados[i] = numeros[i];
         }
     }
-    //Array.Resize(ref sinDuplicados, indice);
     Console.WriteLine("Array sin duplicados: " + string.Join(", ", sinDuplicados));
 }
 
@@ -132,6 +131,72 @@ static void Ejercicio4c()
     Console.WriteLine("Array sin duplicados: " + string.Join(", ", sinDuplicados));
 }
 
+static void Ejercicio5()
+{
+
+    Console.OutputEncoding = System.Text.Encoding.UTF8;  // Configura la codificación de salida de la consola para permitir la visualización de caracteres especiales, como emojis. Esto es útil para mostrar el emoji de corazón en el resultado final.
+
+    char[,] tablero = new char[8, 8];  // variable para almacenar el estado del tablero de ajedrez, donde cada posición puede contener un carácter que representa una pieza o un espacio vacío.
+    char[] piezasNegras = { '♜', '♞', '♝', '♛', '♚', '♝', '♞', '♜' };  // Array que representa las piezas negras en su posición inicial en el tablero de ajedrez. Cada carácter corresponde a una pieza específica, como torre, caballo, alfil, reina y rey.
+    char[] piezasBlancas = { '♖', '♘', '♗', '♕', '♔', '♗', '♘', '♖' }; // Array que representa las piezas blancas en su posición inicial en el tablero de ajedrez. Similar al array de piezasNegras, cada carácter corresponde a una pieza específica.
+
+    // Pintaré el tablero de ajedrez colocando las piezas en sus posiciones iniciales. Las filas 0 y 1 se llenarán con las piezas negras, mientras que las filas 6 y 7 se llenarán con las piezas blancas. Las filas intermedias (2 a 5) se llenarán con '.' para representar el área del tablero sin piezas.
+    for (int columna = 0; columna < 8; columna++)
+    {
+        tablero[0, columna] = piezasNegras[columna];  // Coloca las piezas negras en la primera fila del tablero.
+        tablero[1, columna] = '♟';  // Coloca los peones negros en la segunda fila del tablero.
+        tablero[6, columna] = '♙';  // Coloca los peones blancos en la séptima fila del tablero.
+        tablero[7, columna] = piezasBlancas[columna];  // Coloca las piezas blancas en la octava fila del tablero.
+        for (int fila = 2; fila <= 5; fila++)
+        {
+            tablero[fila, columna] = '.';  // Rellena las filas intermedias con '.' para representar el área del tablero sin piezas.
+        }
+    }
+
+    // Pintar el tablero por consola
+    Console.WriteLine("---SIMULADOR DE AJEDREZ---");
+    Console.WriteLine("  A B C D E F G H");
+    for (int fila = 0; fila < 8; fila++)
+    {
+        Console.Write($"{8 - fila} "); // Pinta números del 8 al 1
+        for (int columna = 0; columna < 8; columna++)
+        {
+            Console.Write($"{tablero[fila, columna]} ");
+        }
+        Console.WriteLine();
+    }
+
+}
+
+
+static void Tamagochi()
+{
+    Console.OutputEncoding = System.Text.Encoding.UTF8;
+    string[] mensajes =
+    {
+        "Tengo hambre ¿Me das de comer?",
+        "Estoy aburrido, ¿quieres jugar conmigo?",
+        "Quiero salir a pasear, ¿me acompañas?"
+    };
+
+    Random random = new Random();
+    while (true)
+    {
+        string mensajeAleatorio = mensajes[random.Next(mensajes.Length)];
+        Console.WriteLine(mensajeAleatorio);
+        String respuesta = Console.ReadLine()!.ToLower();
+        if (respuesta == "sí" || respuesta == "si")
+        {
+            Console.WriteLine("¡Gracias! Me siento feliz 😊");
+        }
+        else
+        {
+            Console.WriteLine("Oh no, me siento triste 😢");
+        }
+        System.Threading.Thread.Sleep(random.Next(1000, 10000)); // Espera un tiempo aleatorio antes de mostrar el siguiente mensaje
+    }
+}
+
 
 
 
@@ -142,5 +207,7 @@ static void Ejercicio4c()
 //Ejercicio3();
 //Ejercicio4();
 //Ejercicio4b();
-Ejercicio4c();
+//Ejercicio4c();
+//Ejercicio5();
+Tamagochi();
 
