@@ -1,4 +1,8 @@
-﻿static void CadenasInmutables()
+﻿using System.Text;
+using System.Text.RegularExpressions;
+
+
+static void CadenasInmutables()
 {
     string nombre = "Ana";
     nombre.ToUpper();  // No se asigna el resultado a ninguna variable, por lo que se pierde la referencia al nuevo string creado
@@ -239,8 +243,106 @@ Esta es la tercera línea.";
         "age": {{edad}}
     }
     """;
+}
+
+static void CompararCadenas()
+{
+    string a = "hola";
+    string b = "Hola";
+
+    string pais = "España";
+    string palabra = "Espar";
+
+    // Comparación sensible a mayúsculas (por defecto)
+    Console.WriteLine(a == b);  // False
+
+    // Comparación ignorando mayúsculas
+    Console.WriteLine(a.Equals(b, StringComparison.OrdinalIgnoreCase));  // True
+    Console.WriteLine(string.Equals(a, b, StringComparison.OrdinalIgnoreCase));  // True
+
+    // Comparar para ordenar
+    int resultado = string.Compare(a, b, StringComparison.OrdinalIgnoreCase);
+    // 0 = iguales, < 0 = a va antes, > 0 = a va después
+
+    Console.WriteLine(resultado);  // 0 (son iguales ignorando mayúsculas)
+
+    // Comparar con cultura específica
+    Console.WriteLine(string.Compare(pais, palabra, StringComparison.CurrentCulture) < 0 ? "España va antes" : "Espar va antes");  // Comparación con cultura específica
+    Console.WriteLine(string.Compare(pais, palabra, StringComparison.Ordinal) < 0 ? "España va antes" : "Espar va antes");  // Comparación con cultura específica
+
+}
+
+// StringBuilder
 
 
+
+static void ManejandoMemoria()
+{
+
+
+    // MAL: concatenación en bucle (crea 1000 strings intermedios)
+    string resultado = "";
+    for (int i = 0; i < 1000; i++)
+    {
+        resultado += i + ", ";  // Cada += crea un nuevo string
+    }
+
+    // BIEN: StringBuilder (modifica el mismo objeto)
+    StringBuilder sb = new StringBuilder();
+    for (int i = 0; i < 1000; i++)
+    {
+        sb.Append(i);
+        sb.Append(", ");
+    }
+    string resultadoFinal = sb.ToString();
+
+}
+
+static void MetodosStringBuilder()
+{
+    StringBuilder sb = new StringBuilder();
+
+    sb.Append("Hola");           // Añadir al final
+    sb.Append(" mundo");
+    sb.AppendLine("!");          // Añadir + salto de línea
+    sb.AppendLine("¿Qué tal?");
+
+    sb.Insert(5, ", buen");      // Insertar en posición
+    sb.Replace("mundo", "mundo maravilloso");  // Reemplazar
+
+
+    Console.WriteLine(sb.ToString());
+    Console.WriteLine($"Longitud: {sb.Length}");
+
+    sb.Clear();  // Vaciar todo
+
+}
+
+static void ExpresionesRegularesBasicas()
+{
+
+    string texto = "Mi email es ana@correo.com y mi teléfono es 612345678";
+
+    // Buscar un patrón de email
+    bool tieneEmail = Regex.IsMatch(texto, @"[\w.]+@[\w.]+\.\w+");
+    Console.WriteLine($"¿Tiene email? {tieneEmail}");  // True
+
+    // Extraer el email
+    Match match = Regex.Match(texto, @"[\w.]+@[\w.]+\.\w+");
+    Console.WriteLine($"Email encontrado: {match.Value}");  // ana@correo.com
+
+    // Buscar números de teléfono (9 dígitos)
+    Match telefono = Regex.Match(texto, @"\d{9}");
+    Console.WriteLine($"Teléfono: {telefono.Value}");  // 612345678
+
+    // Validar formato
+    string email = "usuario@ejemplo.com";
+    bool emailValido = Regex.IsMatch(email, @"^[\w.]+@[\w.]+\.\w{2,}$");
+    Console.WriteLine($"¿Email válido? {emailValido}");  // True
+
+    // Reemplazar con regex
+    string censurado = Regex.Replace(texto, @"\d{9}", "***-***-***");
+    Console.WriteLine(censurado);
 
 }
 
@@ -252,3 +354,5 @@ Esta es la tercera línea.";
 //Rellenos();
 //InterpolacionCadenas();
 //TrabajoFechas();
+//CompararCadenas();
+ExpresionesRegularesBasicas();
