@@ -209,5 +209,5 @@ static void Tamagochi()
 //Ejercicio4b();
 //Ejercicio4c();
 //Ejercicio5();
-Tamagochi();
+//Tamagochi();
 
