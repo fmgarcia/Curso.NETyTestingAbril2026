@@ -205,6 +205,45 @@ static void TrabajoFechas()
 
 }
 
+static void VerbatimRawStrings()
+{
+    // Sin @: necesitas escapar las barras
+    string ruta1 = "C:\\Users\\Ana\\Documentos\\archivo.txt";
+
+    // Con @: las barras se escriben directamente (cadenas verbatim)
+    string ruta2 = @"C:\Users\Ana\Documentos\archivo.txt";
+
+    // También permite multilínea
+    string multilinea = @"Esta es la primera línea.
+Esta es la segunda línea.
+Esta es la tercera línea.";
+
+    // Raw string literal
+    string json = """
+    {
+        "nombre": "Ana",
+        "edad": 25,
+        "ciudad": "Madrid"
+    }
+    """;
+
+    Console.WriteLine(json);
+
+    // Raw string con interpolación
+    string nombre = "Ana";
+    int edad = 25;
+    string jsonDinamico = $$"""
+    {
+    
+        "name": "{{nombre.PadRight(10)}}",
+        "age": {{edad}}
+    }
+    """;
+
+
+
+}
+
 //CadenasInmutables();
 //MetodosCadenasComunes();
 //MetodosTransformacionCadenas();
@@ -212,4 +251,4 @@ static void TrabajoFechas()
 //ParticionesUniones();
 //Rellenos();
 //InterpolacionCadenas();
-TrabajoFechas();
+//TrabajoFechas();
