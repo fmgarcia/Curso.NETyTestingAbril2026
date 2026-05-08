@@ -62,7 +62,7 @@ static void ReconocimientoAzure()
     // Por ejemplo, podrías usar Azure Text Analytics para extraer entidades como correos electrónicos, números de teléfono, URLs, etc.
     // Sin embargo, esto requeriría configurar una cuenta de Azure y obtener las claves de API necesarias.
     Uri endpoint = new Uri("https://reconocimentolenguaje.cognitiveservices.azure.com/"); // Conecta con tu recurso de Azure Cognitive Services 
-    AzureKeyCredential credential = new AzureKeyCredential("BRLMxTWaQAUvoKVfFABOPOu6qX923RJm4gWgVdPkSpQTCyi4hQhBJQQJ99CEAC5T7U2XJ3w3AAAaACOGAg0i"); // Reemplaza con tu clave de API de Azure Cognitive Services. Conecta con tu recurso de Azure Cognitive Services
+    AzureKeyCredential credential = new AzureKeyCredential("XXX"); // Reemplaza con tu clave de API de Azure Cognitive Services. Conecta con tu recurso de Azure Cognitive Services
     TextAnalyticsClient client = new TextAnalyticsClient(endpoint, credential);
 
     string texto = """
@@ -115,7 +115,7 @@ static async Task TraductorLenguajes()
         """;
 
     // 1. Configuración de la conexión
-    string key = "66uiPPwj1qPhzuN9X93GmhuR0cTj5fPS45lXO3MdbQhTglWv0BLhJQQJ99CEAC5T7U2XJ3w3AAAbACOGNj0S"; // Recuerda poner tu clave real
+    string key = "XXX"; // Recuerda poner tu clave real
     string region = "francecentral";
     string endpoint = "https://api.cognitive.microsofttranslator.com";
 
