@@ -198,6 +198,91 @@ static void NoContiene()
 }
 
 
+//Ejercicio 5: Analizador de texto
+//Pide un texto al usuario y muestra:
+
+//Número de caracteres
+//Número de palabras
+//Número de frases (terminan en ., ! o ?)
+//Palabra más larga
+//Palabra más frecuente
+static void AnalizadorTexto()
+{
+    Console.WriteLine("Introduce un texto para analizar:");
+    string texto = Console.ReadLine() ?? "";
+
+    // Verificar que el usuario ha ingresado un texto
+    if (string.IsNullOrWhiteSpace(texto))
+    {
+        Console.WriteLine("No se ha ingresado ningún texto.");
+        return;
+    }
+
+    // Número de caracteres
+    int numeroCaracteres = texto.Length;
+
+    // Número de palabras
+    char[] separadoresPalabras = { ' ', '\t', '\n', '\r', '.', '!', '?', ',', ';', ':', '-', '(', ')', '"', '\'' };
+    string[] palabras = texto.Split(separadoresPalabras, StringSplitOptions.RemoveEmptyEntries);
+    int numeroPalabras = palabras.Length;
+
+    // Número de frases
+    char[] terminadoresFrases = { '.', '!', '?' };
+    string[] frases = texto.Split(terminadoresFrases, StringSplitOptions.RemoveEmptyEntries);
+    int numeroFrases = frases.Length;
+
+    // Palabra más larga.
+    // Formato tradicional con bucle for o foreach y variable para almacenar la palabra más larga encontrada hasta el momento
+    string palabraMasLarga = "";
+    foreach (string palabra in palabras)
+    {
+        if (palabra.Length > palabraMasLarga.Length)
+        {
+            palabraMasLarga = palabra;
+        }
+    }
+
+    // Palabra más larga con LINQ
+    string palabraMasLarga2 = palabras.OrderByDescending(p => p.Length).FirstOrDefault() ?? "";
+
+    // Palabra más frecuente
+    // Método tradicional con bucles for anidados para contar la frecuencia de cada palabra única en el texto
+    string[] palabrasUnicas = palabras.Distinct().ToArray();
+    int[] frecuencias = new int[palabrasUnicas.Length];
+
+    for (int i = 0; i < palabras.Length; i++)  // Recorrer cada palabra del texto original
+    {
+        for (int j = 0; j < palabrasUnicas.Length; j++) // Comparar con cada palabra única
+        {
+            if (palabras[i] == palabrasUnicas[j]) // Si coinciden, incrementar la frecuencia correspondiente
+            {
+                frecuencias[j]++;
+                break; // Salir del bucle interno para evitar contar la misma palabra varias veces
+            }
+        }
+    }
+
+    int indicePalabraMasFrecuente = Array.IndexOf(frecuencias, frecuencias.Max());  // Encontrar el índice de la palabra con mayor frecuencia
+    string palabraMasFrecuente = palabrasUnicas[indicePalabraMasFrecuente];
+    int frecuenciaPalabraMasFrecuente = frecuencias[indicePalabraMasFrecuente];
+
+    // Palabra más frecuente con LINQ
+    var grupoMasFrecuenteLinq = palabras.GroupBy(p => p.ToLower())
+                                           .OrderByDescending(g => g.Count())
+                                           .FirstOrDefault();
+
+
+
+    Console.WriteLine($"Número de caracteres: {numeroCaracteres}");
+    Console.WriteLine($"Número de palabras: {numeroPalabras}");
+    Console.WriteLine($"Número de frases: {numeroFrases}");
+    Console.WriteLine($"Palabra más larga: {palabraMasLarga} con LINQ {palabraMasLarga2}");
+    Console.WriteLine($"Palabra más frecuente: {palabraMasFrecuente} (aparece {frecuenciaPalabraMasFrecuente} veces)");
+    Console.WriteLine($"Palabra más frecuente con LINQ: {grupoMasFrecuenteLinq?.Key} (aparece {grupoMasFrecuenteLinq?.Count()} veces)");
+
+
+}
+
 
 
 //CifradoCesar("abc"); // Salida: "def"
@@ -211,3 +296,4 @@ static void NoContiene()
 //Palindromo2();
 //ValidadorContraseñasEstructuras();
 //ValidadorContraseñasLINQ();
+AnalizadorTexto();
