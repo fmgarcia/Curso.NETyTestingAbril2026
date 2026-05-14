@@ -29,6 +29,21 @@
                 Console.WriteLine("No se puede dividir por cero");
             }
         }
+        static void DivisionZeroControladaConIf()
+        {
+            int a = 10;
+            int b = 0;
+
+            if (b != 0)
+            {
+                int resultado = a / b;
+            }
+            else
+            {
+                Console.WriteLine("No se puede dividir por cero");
+            }
+
+        }
         static void MultiplesExcepciones()
         {
             int a = 10;
