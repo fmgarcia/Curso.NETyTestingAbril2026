@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using System.Net.Http.Json;
+using System.Text.Json;
 
 
 namespace Json1405
@@ -15,7 +16,7 @@ namespace Json1405
                 if (!File.Exists(rutaFichero))
                 {
                     Console.WriteLine($"Error: El fichero '{rutaFichero}' no existe.");
-                    return null;
+                    return null!;
                 }
 
                 // 2. Leemos el contenido del fichero y lo almacenamos en una variable
@@ -35,12 +36,12 @@ namespace Json1405
             catch (FileNotFoundException)
             {
                 Console.WriteLine($"Error: El fichero '{rutaFichero}' no se encontró.");
-                return null;
+                return null!;
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error al leer el fichero: {ex.Message}");
-                return null;
+                return null!;
             }
         }
 
@@ -87,17 +88,109 @@ namespace Json1405
         }
 
 
+        static PersonajeStarWars StarWarsDesdeInternet(string url)
+        {
+            try
+            {
+                using var client = new HttpClient();
+
+                var opciones = new JsonSerializerOptions
+                {
+                    PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower,
+                };
+                string jsonString = client.GetStringAsync(url).Result;
+                PersonajeStarWars? personaje = JsonSerializer.Deserialize<PersonajeStarWars>(jsonString, opciones);
+                return personaje!;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error al obtener datos de Star Wars: {ex.Message}");
+                return null!;
+            }
+        }
+        static Peliculas PeliculasStarWars(string url)
+        {
+            try
+            {
+                using var client = new HttpClient();
+
+                var opciones = new JsonSerializerOptions
+                {
+                    PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower,
+                };
+                string jsonString = client.GetStringAsync(url).Result;
+                Peliculas? datos = JsonSerializer.Deserialize<Peliculas>(jsonString, opciones);
+                return datos!;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error al obtener datos de Star Wars: {ex.Message}");
+                return null!;
+            }
+        }
+
+        static async Task<PersonajeStarWars> StarWarsDesdeInternetAsincrono(string url)
+        {
+            try
+            {
+                using var client = new HttpClient();
+
+                var opciones = new JsonSerializerOptions
+                {
+                    PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower,
+                };
+                PersonajeStarWars? personaje = await client.GetFromJsonAsync<PersonajeStarWars>(url, opciones);
+                return personaje!;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error al obtener datos de Star Wars: {ex.Message}");
+                return null!;
+            }
+        }
+
+
+        public record PersonajeStarWars(
+            string Name,
+            string Height,
+            string Mass
+        );
+
+        public record Peliculas
+        (
+            string Title,
+            string EpisodeId,
+            string OpeningCrawl
+        );
 
         static void Main(string[] args)
         {
             Console.OutputEncoding = System.Text.Encoding.UTF8; // Para mostrar correctamente el símbolo de moneda
-            ModeloDatos.DatosEmpresa? datos = JsonLocal("archivos", "ejemplo.json");
-            if (datos != null)
-            {
-                ImprimirDatosEmpresa(datos);
-            }
+            //ModeloDatos.DatosEmpresa? datos = JsonLocal("archivos", "ejemplo.json");
+            //if (datos != null)
+            //{
+            //    ImprimirDatosEmpresa(datos);
+            //}
 
-            Console.WriteLine($"El presupuesto total de los proyectos es: {CalcularPresupuestoTotal(datos!.Proyectos):C}");
+            //Console.WriteLine($"El presupuesto total de los proyectos es: {CalcularPresupuestoTotal(datos!.Proyectos):C}");
+            //PersonajeStarWars luke = StarWarsDesdeInternet(@"https://swapi.info/api/people/1");
+            //Console.WriteLine($"Nombre: {luke.Name}");
+            //Console.WriteLine($"Altura: {luke.Height}");
+            //Console.WriteLine($"Masa: {luke.Mass}");
+
+            //PersonajeStarWars luke2 = StarWarsDesdeInternetAsincrono(@"https://swapi.info/api/people/1").Result;
+            //Console.WriteLine($"Nombre: {luke2.Name}");
+            //Console.WriteLine($"Altura: {luke2.Height}");
+            //Console.WriteLine($"Masa: {luke2.Mass}");
+            File.AppendAllText(Path.Combine("archivos", "personajes.csv"), $"Name;Height;Mass\n");
+            for (int i = 1; i <= 10; i++)
+            {
+                string url = $"https://swapi.info/api/people/{i}";
+                PersonajeStarWars personaje = StarWarsDesdeInternet(url);
+                File.AppendAllText(Path.Combine("archivos", "personajes.csv"), $"{personaje.Name};{personaje.Height};{personaje.Mass}\n");
+            }
+            Console.WriteLine("Proceso completado");
+
         }
 
     }
