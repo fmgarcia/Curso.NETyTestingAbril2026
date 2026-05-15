@@ -21,7 +21,15 @@ namespace POO1505
 
         public double CalcularPerimetro() => 2 * (Ancho + Alto);  // Método tradicional para calcular el perímetro
 
+        public override bool Equals(object? obj)
+        {
+            return obj is Rectangulo rectangulo &&
+                   Area == rectangulo.Area;
+        }
 
-
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Area);
+        }
     }
 }

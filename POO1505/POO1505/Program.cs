@@ -11,10 +11,12 @@ namespace POO1505
             fran.Edad = 30;
             fran.Email = "francisco@example.com";
             fran.Salario = 50000.00m;
-
+            Persona francisco = fran; // Asignar la referencia de fran a francisco. Ambos apuntan al mismo objeto en memoria.
 
             Persona paco = new Persona("Paco", 49, "paco@ejemplo.com");
             paco.Edad = 100;
+            Console.WriteLine($"Número de personas creadas hasta el momento es: {Persona.ContadorPersonas}");  // 2
+
             Persona consuelo = new Persona("Consuelo", 25);
             Console.WriteLine(consuelo.Salario);
 
@@ -34,6 +36,20 @@ namespace POO1505
             };
 
             var luis = new Persona();
+
+            Console.WriteLine($"Número de personas creadas hasta el momento es: {Persona.ContadorPersonas}");  // 6
+            Console.WriteLine(Persona.MostrarContadorPersonasPorDos()); // 12
+            Console.WriteLine(fran);
+
+            if (francisco == fran)
+            {
+                Console.WriteLine("Son la misma persona");
+            }
+            else
+            {
+                Console.WriteLine("Son personas diferentes");
+            }
+
         }
 
         static void EjemplosRectangulo()
@@ -42,6 +58,16 @@ namespace POO1505
             rectangulo1.Ancho = 20;
             Console.WriteLine($"El área del rectángulo es: {rectangulo1.CalcularArea()}");
             Console.WriteLine($"El área del rectángulo es {rectangulo1.Area}");
+            Rectangulo rectangulo2 = new Rectangulo(15, 10);
+            Rectangulo rectangulo3 = new Rectangulo(10, 15);
+            if (rectangulo2.Equals(rectangulo3))
+            {
+                Console.WriteLine("Son el mismo rectángulo");
+            }
+            else
+            {
+                Console.WriteLine("Son rectángulos diferentes");
+            }
         }
 
         static void EjemplosCuentaBancaria()
@@ -64,8 +90,8 @@ namespace POO1505
         static void Main(string[] args)
         {
             //EjemplosPersona();
-            //EjemplosRectangulo();
-            EjemplosCuentaBancaria();
+            EjemplosRectangulo();
+            //EjemplosCuentaBancaria();
         }
     }
 }
