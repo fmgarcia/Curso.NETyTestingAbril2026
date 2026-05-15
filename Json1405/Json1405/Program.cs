@@ -128,6 +128,26 @@ namespace Json1405
                 return null!;
             }
         }
+        static Pokemon PokemonInternet(string url)
+        {
+            try
+            {
+                using var client = new HttpClient();
+
+                var opciones = new JsonSerializerOptions
+                {
+                    PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower,
+                };
+                string jsonString = client.GetStringAsync(url).Result;
+                Pokemon? datos = JsonSerializer.Deserialize<Pokemon>(jsonString, opciones);
+                return datos!;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error al obtener datos de Star Wars: {ex.Message}");
+                return null!;
+            }
+        }
 
         static async Task<PersonajeStarWars> StarWarsDesdeInternetAsincrono(string url)
         {
@@ -163,6 +183,25 @@ namespace Json1405
             string OpeningCrawl
         );
 
+        public record Pokemon(
+            string Name,
+            int Order,
+            int BaseExperience,
+            List<HabilidadPokemon> Abilities
+        );
+        // El elemento que está dentro de la lista(representa cada bloque con is_hidden y slot)
+        public record HabilidadPokemon(
+            DetalleHabilidad Ability,
+            bool IsHidden,
+            int Slot
+        );
+
+        // El objeto anidado con el nombre de la habilidad y su URL
+        public record DetalleHabilidad(
+            string Name,
+            string Url
+        );
+
         static void Main(string[] args)
         {
             Console.OutputEncoding = System.Text.Encoding.UTF8; // Para mostrar correctamente el símbolo de moneda
@@ -182,14 +221,26 @@ namespace Json1405
             //Console.WriteLine($"Nombre: {luke2.Name}");
             //Console.WriteLine($"Altura: {luke2.Height}");
             //Console.WriteLine($"Masa: {luke2.Mass}");
-            File.AppendAllText(Path.Combine("archivos", "personajes.csv"), $"Name;Height;Mass\n");
-            for (int i = 1; i <= 10; i++)
+
+            // Ejemplo coger personajes del 1 al 10 y guardarlos en un CSV
+            //File.AppendAllText(Path.Combine("archivos", "personajes.csv"), $"Name;Height;Mass\n");
+            //for (int i = 1; i <= 10; i++)
+            //{
+            //    string url = $"https://swapi.info/api/people/{i}";
+            //    PersonajeStarWars personaje = StarWarsDesdeInternet(url);
+            //    File.AppendAllText(Path.Combine("archivos", "personajes.csv"), $"{personaje.Name};{personaje.Height};{personaje.Mass}\n");
+            //}
+            //Console.WriteLine("Proceso completado");
+
+            // Ejemplo coger datos Pokemon ditto y mostrarlo por consola
+            Pokemon ditto = PokemonInternet(@"https://pokeapi.co/api/v2/pokemon/ditto");
+            Console.WriteLine($"{ditto.Name}");
+            Console.WriteLine($"{ditto.Order}");
+            Console.WriteLine($"{ditto.BaseExperience}");
+            foreach (var habilidad in ditto.Abilities)
             {
-                string url = $"https://swapi.info/api/people/{i}";
-                PersonajeStarWars personaje = StarWarsDesdeInternet(url);
-                File.AppendAllText(Path.Combine("archivos", "personajes.csv"), $"{personaje.Name};{personaje.Height};{personaje.Mass}\n");
+                Console.WriteLine($"Habilidad: {habilidad.Ability.Name}, Oculta: {habilidad.IsHidden}, Slot: {habilidad.Slot}");
             }
-            Console.WriteLine("Proceso completado");
 
         }
 
