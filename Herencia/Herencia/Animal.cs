@@ -19,6 +19,13 @@ namespace Herencia
             Console.WriteLine($"{Nombre} está durmiendo durante 8 horas.");
         }
 
+        public virtual void HacerSonido()
+        {
+            Console.WriteLine("(sonido genérico)");
+        }
+
+        public override string ToString() => $"{GetType().Name}: {Nombre}";
+
 
     }
 }
