@@ -6,7 +6,7 @@ namespace Colecciones
 {
     class Caja<T>
     {
-        public T Contenido;
+        public T Contenido { get; set; }
 
         public Caja(T contenido)
         {

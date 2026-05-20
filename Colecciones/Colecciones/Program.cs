@@ -409,6 +409,31 @@
             {
                 Console.WriteLine(juguete);
             }
+
+            // Ejemplos de Serialización con la clase Genérica SerializarObjeto
+            SerializarObjeto<List<Juguete>> serializadorJuguetes = new(juguetes);
+            SerializarObjeto<Juguete> serializadorJuguete = new(juguetes[0]);
+            SerializarObjeto<Caja<List<Juguete>>> serializarCajaListaJuguetes = new(cajaJuguetes);
+
+            if (!Directory.Exists("archivos"))
+            {
+                Directory.CreateDirectory("archivos");
+            }
+            serializadorJuguetes.Serializar(@"archivos/juguetes.json");
+            serializadorJuguete.Serializar(@"archivos/juguete.json");
+            serializarCajaListaJuguetes.Serializar(@"archivos/caja_juguetes.json");
+
+            Juguete jugueteDesdeArchivo = serializadorJuguete.Deserializar(@"archivos/juguete.json");
+            List<Juguete> listaJuguetesDesdeArchivo = serializadorJuguetes.Deserializar(@"archivos/juguetes.json");
+
+            // Imprimimos lo que hemos recuperado de los ficheros
+            Console.WriteLine("Recuperando datos desde ficheros:");
+            Console.WriteLine(jugueteDesdeArchivo);
+            foreach (var juguete in listaJuguetesDesdeArchivo)
+            {
+                Console.WriteLine(juguete);
+
+            }
         }
     }
 }

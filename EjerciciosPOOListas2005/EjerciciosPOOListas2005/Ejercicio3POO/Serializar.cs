@@ -5,7 +5,7 @@ using System.IO; // Necesario para trabajar con archivos
 using System.Text.Json; // Necesario para la serialización JSON
 
 
-namespace Colecciones
+namespace EjerciciosPOOListas2005
 {
     internal class SerializarObjeto<T>
     {
@@ -21,6 +21,7 @@ namespace Colecciones
         /// <param name="nombreFichero">El nombre del fichero que se utilizará para la serialización. No puede ser nulo ni una cadena vacía.</param>
         public void Serializar(string nombreFichero)
         {
+
             // Convertimos el objeto a una cadena JSON utilizando la serialización de System.Text.Json
             var opciones = new JsonSerializerOptions
             {
