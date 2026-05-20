@@ -4,7 +4,17 @@ using System.Text;
 
 namespace Colecciones
 {
-    internal class Serializar
+    internal class SerializarObjeto<T>
     {
+
+        public T objeto;
+
+        public SerializarObjeto(T objeto) { this.objeto = objeto; }
+
+        public SerializarObjeto(string nombreFichero)
+        {
+
+        }
+
     }
 }
