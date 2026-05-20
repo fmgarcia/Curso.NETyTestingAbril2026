@@ -8,5 +8,6 @@ namespace PolimorfismoInterfaces
     {
         void Sumergirse();
         void Salir();
+
     }
 }
