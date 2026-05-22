@@ -283,6 +283,39 @@ namespace LINQ
             Console.WriteLine($"Número total de alumnos: {numeroAlumnos}");
         }
 
+
+        static void EjemploGroupBy()
+        {
+            List<Alumno> alumnos = new()
+            {
+                new("Ana", 22, 8.5, "Madrid"),
+                new("Luis", 25, 6.0, "Barcelona"),
+                new("María", 20, 9.2, "Madrid"),
+                new("Pedro", 23, 4.5, "Sevilla"),
+                new("Carmen", 21, 7.8, "Barcelona"),
+                new("Javier", 24, 5.0, "Madrid"),
+                new("Laura", 22, 9.5, "Valencia"),
+                new("Carlos", 26, 3.2, "Sevilla"),
+                new("Elena", 21, 8.0, "Valencia"),
+                new("Diego", 23, 6.5, "Madrid")
+            };
+            var alumnosPorCiudad = alumnos
+                .GroupBy(a => a.Ciudad) // Agrupar los alumnos por ciudad.
+                .ToList();
+            foreach (var grupo in alumnosPorCiudad)
+            {
+                Console.WriteLine($"Ciudad: {grupo.Key} - Número de alumnos: {grupo.Count()}");
+                grupo.ToList().ForEach(a => Console.WriteLine($"    {a.Nombre} - {a.Nota}"));
+            }
+
+            var aprobadosSuspendidos = alumnos
+                .GroupBy(a => a.Nota >= 5 ? "Aprobados" : "Suspendidos")
+                .ToList();
+
+            aprobadosSuspendidos.FirstOrDefault(e => e.Key == "Aprobados")!.ToList().ForEach(a => Console.WriteLine($"Alumno aprobado: {a.Nombre} - {a.Nota}"));
+
+        }
+
         // Aggregate se utiliza para aplicar una función de acumulación a los elementos de una secuencia, lo que permite realizar operaciones como sumas, productos, concatenaciones, etc. La función de acumulación toma dos parámetros: el valor acumulado hasta el momento y el siguiente elemento de la secuencia. El resultado de la función se convierte en el nuevo valor acumulado para la siguiente iteración.
         // En otro lenguaje, esta función se conoce como reduce o fold (Scala).
         static void EjemploAggregate()
@@ -563,6 +596,7 @@ namespace LINQ
             //Posiciones();
             //AnyAllCount();
             //EjemplosEstadisticas();
+            //EjemploGroupBy();
             //EjemploAggregate();
             //EjemplosDistintosConjuntos();
             //TransformacionesColecciones();
