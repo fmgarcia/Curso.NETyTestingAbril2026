@@ -1,4 +1,6 @@
-﻿using System.Threading.Channels;
+﻿using System.Diagnostics;
+using System.Security;
+using System.Threading.Channels;
 
 namespace LINQ
 {
@@ -487,6 +489,70 @@ namespace LINQ
 
         }
 
+        static string UnSegundo(int tiempo, string cadena)
+        {
+            // espera tiempo milisengundos (1 segundo) en el hilo actual
+            Thread.Sleep(tiempo);
+            return cadena.ToUpper();
+        }
+
+
+        static void EjemploAsParallel()
+        {
+            List<Alumno> alumnos = new()
+            {
+                new("Ana", 22, 8.5, "Madrid"),
+                new("Luis", 25, 6.0, "Barcelona"),
+                new("María", 20, 9.2, "Madrid"),
+                new("Pedro", 23, 4.5, "Sevilla"),
+                new("Carmen", 21, 7.8, "Barcelona"),
+                new("Javier", 24, 5.0, "Madrid"),
+                new("Laura", 22, 9.5, "Valencia"),
+                new("Carlos", 26, 3.2, "Sevilla"),
+                new("Elena", 21, 8.0, "Valencia"),
+                new("Diego", 23, 6.5, "Madrid"),
+                new("Ana", 22, 8.5, "Madrid"),
+                new("Luis", 25, 6.0, "Barcelona"),
+                new("María", 20, 9.2, "Madrid"),
+                new("Pedro", 23, 4.5, "Sevilla"),
+                new("Carmen", 21, 7.8, "Barcelona"),
+                new("Javier", 24, 5.0, "Madrid"),
+                new("Laura", 22, 9.5, "Valencia"),
+                new("Carlos", 26, 3.2, "Sevilla"),
+                new("Elena", 21, 8.0, "Valencia"),
+                new("Diego", 23, 6.5, "Madrid")
+            };
+
+            Stopwatch cronometro = Stopwatch.StartNew(); // Iniciar el cronómetro para medir el tiempo sin paralelismo.
+            Console.WriteLine("Sin paralelismo:");
+            alumnos
+                .ForEach(a =>
+                {
+                    Console.WriteLine($"Procesando alumno: {a.Nombre}");
+                    Console.WriteLine(UnSegundo(1000, a.Nombre)); // Simula una operación costosa que tarda 1 segundo.
+                });
+
+            cronometro.Stop(); // Detener el cronómetro después de procesar todos los alumnos sin paralelismo.
+
+            Console.WriteLine($"Tiempo total sin paralelismo: {cronometro.Elapsed.TotalSeconds} segundos");
+
+            cronometro.Restart();  // Reiniciar el cronómetro para medir el tiempo con paralelismo.
+
+            Console.WriteLine("Con paralelismo:");
+            cronometro.Start(); // Iniciar el cronómetro para medir el tiempo con paralelismo.
+            alumnos
+                .AsParallel()  // Disponible a partir de .NET 4.0, permite procesar la colección en paralelo utilizando múltiples hilos.
+                .ForAll(a =>
+                {
+                    Console.WriteLine($"Procesando alumno: {a.Nombre}");
+                    Console.WriteLine(UnSegundo(1000, a.Nombre)); // Simula una operación costosa que tarda 1 segundo.
+                });
+            cronometro.Stop(); // Detener el cronómetro después de procesar todos los alumnos con paralelismo.
+
+            Console.WriteLine($"Tiempo total con paralelismo: {cronometro.Elapsed.TotalSeconds} segundos");
+
+        }
+
 
         static void Main(string[] args)
         {
@@ -502,6 +568,7 @@ namespace LINQ
             //TransformacionesColecciones();
             //ConsultasComplejas();
             //EjecucionesDiferidas();
+            //EjemploAsParallel();
         }
     }
 }
