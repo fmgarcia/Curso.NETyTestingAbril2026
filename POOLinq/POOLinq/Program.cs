@@ -69,9 +69,16 @@
 
         }
 
+        static void Ejercicio2()
+        {
+            string texto = "Hola mundo, hola a todos. Este es un texto de prueba para contar palabras. ¡Hola!";
+            var resultado = UtilidadesTextos.ContarPalabras(texto);
+        }
+
         static void Main(string[] args)
         {
             Ejercicio1();
+            Ejercicio2();
         }
     }
 }
