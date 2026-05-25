@@ -72,7 +72,13 @@
         static void Ejercicio2()
         {
             string texto = "Hola mundo, hola a todos. Este es un texto de prueba para contar palabras. ¡Hola!";
+
+            // Contador de palabras utilizando el método ContarPalabras de la clase UtilidadesTextos
             var resultado = UtilidadesTextos.ContarPalabras(texto);
+            foreach (var palabra in resultado)
+            {
+                Console.WriteLine($"Palabra: '{palabra.Key}', Cantidad: {palabra.Value}");
+            }
         }
 
         static void Main(string[] args)
