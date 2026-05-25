@@ -72,6 +72,8 @@
         static void Ejercicio2()
         {
             string texto = "Hola mundo, hola a todos. Este es un texto de prueba para contar palabras. ¡Hola!";
+            string texto2 = "!;";
+            string texto3 = "a e i o u á é í ó ú à è ì ò ù ä ë ï ö ü â ê î ô û !;-";
 
             // Contador de palabras utilizando el método ContarPalabras de la clase UtilidadesTextos
             var resultado = UtilidadesTextos.ContarPalabras(texto);
@@ -79,11 +81,25 @@
             {
                 Console.WriteLine($"Palabra: '{palabra.Key}', Cantidad: {palabra.Value}");
             }
+
+            // Palabra más frecuente utilizando el método PalabraMasFrecuente de la clase UtilidadesTextos
+            string palabraMasFrecuente = UtilidadesTextos.PalabraMasFrecuente(texto);
+            Console.WriteLine($"Palabra más frecuente: {(palabraMasFrecuente == string.Empty ? "(No hay palabras)" : palabraMasFrecuente)}");
+
+            // Palabras ordenadas alfabéticamente con al menos 4 letras utilizando el método OrdenarAlfabeticamentePalabrasNLetras de la clase UtilidadesTextos
+            Console.WriteLine($"Palabras ordenadas alfabéticamente con al menos 4 letras:");
+            var palabrasOrdenadas = UtilidadesTextos.OrdenarAlfabeticamentePalabrasNLetras(texto, 4);
+            palabrasOrdenadas.ForEach(p => Console.WriteLine($"- {p}"));
+
+            // Contador de vocales utilizando el método ContarVocales de la clase UtilidadesTextos
+            int cantidadVocales = UtilidadesTextos.ContarVocales(texto); // 28
+            Console.WriteLine($"El número de vocales en el texto es: {cantidadVocales}");
+
         }
 
         static void Main(string[] args)
         {
-            Ejercicio1();
+            //Ejercicio1();
             Ejercicio2();
         }
     }
