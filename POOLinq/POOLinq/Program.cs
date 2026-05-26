@@ -1,4 +1,6 @@
-﻿namespace POOLinq
+﻿using System.Text;
+
+namespace POOLinq
 {
     internal class Program
     {
