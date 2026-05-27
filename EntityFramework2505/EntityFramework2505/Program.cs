@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Runtime.Intrinsics.X86;
 
 namespace EntityFramework2505
 {
@@ -265,7 +266,53 @@ namespace EntityFramework2505
             } while (opcion != 0);
         }
 
+        // Ejemplo de consulta avanzada utilizando LINQ y Entity Framework Core para obtener un resumen de productos por categoría, incluyendo la cantidad de productos, el precio promedio, el precio máximo y el precio mínimo para cada categoría. La consulta se agrupa por categoría y se ordena por la cantidad de productos en orden descendente.
+        // El resultado se muestra en la consola con los detalles de cada categoría y sus estadísticas correspondientes.
+        // Sería equivalente a la siguiente consulta SQL:
+        // Select Categorias.Nombre as Categoria, count(Productos.Id) as CantidadProductos,
+        //    avg(Productos.Precio) as PrecioPromedio,
+        //    max(Productos.Precio) as PrecioMaximo,
+        //    min(Productos.Precio) as PrecioMinimo
+        // from Productos, Categorias
+        // where Productos.CategoriaId = Categorias.Id
+        // group by CategoriaId, Categorias.Nombre
+        // Order by CantidadProductos desc
 
+        static void ConsultaAvanzada()  // Ejemplo LINQ + EF Core
+        {
+            using var db = new TiendaContext();  // Creación de una instancia del contexto de la tienda para realizar consultas avanzadas en la base de datos.
+
+            // Agrupar productos por categoría y calcular estadísticas
+            var resumen = db.Productos
+                .Include(e => e.Categoria)  // Incluye la relación con la categoría para acceder a los datos de la categoría en la consulta.
+                .GroupBy(e => e.Categoria.Nombre)  // Agrupa los productos por el nombre de la categoría.
+                .Select(g => new   // Proyección de los resultados en una nueva clase anónima que contiene la categoría, la cantidad de productos, el precio promedio, el precio máximo y el precio mínimo para cada grupo de productos.
+                {
+                    Categoria = g.Key,
+                    CantidadProductos = g.Count(),
+                    PrecioPromedio = g.Average(p => p.Precio),
+                    PrecioMaximo = g.Max(p => p.Precio),
+                    PrecioMinimo = g.Min(p => p.Precio)
+                })
+                .OrderByDescending(e => e.CantidadProductos)  // Ordena los resultados por la cantidad de productos en orden descendente.
+                .ToList();  // Ejecuta la consulta y obtiene una lista de resultados.
+
+            foreach (var item in resumen)
+            {
+                Console.WriteLine($"Categoría: {item.Categoria}, Cantidad de Productos: {item.CantidadProductos}, Precio Promedio: {item.PrecioPromedio:C}, Precio Máximo: {item.PrecioMaximo:C}, Precio Mínimo: {item.PrecioMinimo:C}");
+            }
+        }
+
+
+        static List<Producto> PaginacionesOrdenadasNombre(int pagina, int tamanyo)
+        {
+            using var db = new TiendaContext();
+            return db.Productos
+                .OrderBy(p => p.Nombre)
+                .Skip((pagina - 1) * tamanyo)
+                .Take(tamanyo)
+                .ToList();
+        }
 
         static void Main(string[] args)
         {
@@ -287,6 +334,7 @@ namespace EntityFramework2505
             // EliminarCategoria(5);  // Llamada al método que elimina una categoría específica de la base de datos utilizando su ID. El método busca la categoría, la marca para eliminación, y luego guarda los cambios en la base de datos. (Delete)
             // EliminarCategoria(4);  // Si eliminas una categoría que tiene productos asociados, se eliminarán automáticamente todos los productos relacionados debido a la configuración de eliminación en cascada definida en la relación entre categorías y productos. Esto significa que al eliminar la categoría con ID 4, todos los productos que pertenecen a esa categoría también serán eliminados de la base de datos. Es importante tener cuidado al realizar esta operación, ya que puede resultar en la pérdida de datos si no se tiene en cuenta la relación entre las entidades.
             GestionarMenu();
+            // ConsultaAvanzada();
         }
     }
 }
