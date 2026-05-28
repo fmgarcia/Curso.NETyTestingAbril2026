@@ -174,5 +174,117 @@ namespace Biblioteca
 
         }
 
+
+        // ================================
+        // D - DELETE (Eliminar)
+        // ================================
+
+        /// <summary>
+        /// Elimina un libro de la base de datos de forma asíncrona, identificándolo por su ID. Si el libro existe, se eliminará junto con las asociaciones a sus autores.
+        /// </summary>
+        /// <param name="id">El ID del libro a eliminar.</param>
+        /// <returns>True si el libro se eliminó correctamente; de lo contrario, false.</returns>
+        public async Task<bool> EliminarLibroAsync(int id)
+        {
+            var libro = await _context.Libros.FindAsync(id);
+            if (libro == null)
+            {
+                return false; // No se encontró el libro
+            }
+            _context.Libros.Remove(libro);
+            await _context.SaveChangesAsync();
+            return true; // Libro eliminado exitosamente
+        }
+
+
+        /// <summary>
+        /// Elimina de forma asíncrona el autor identificado por el identificador especificado.
+        /// </summary>
+        /// <remarks>Si no se encuentra ningún autor con el identificador proporcionado, no se realiza
+        /// ninguna acción y el método devuelve <see langword="false"/>.</remarks>
+        /// <param name="id">El identificador único del autor que se va a eliminar. Debe ser un valor positivo.</param>
+        /// <returns>Un valor que indica si el autor fue eliminado correctamente. Devuelve <see langword="true"/> si el autor
+        /// existía y fue eliminado; de lo contrario, <see langword="false"/>.</returns>
+        public async Task<bool> EliminarAutorAsync(int id)
+        {
+            var autor = await _context.Autores.FindAsync(id);
+            if (autor == null)
+            {
+                return false; // No se encontró el autor
+            }
+            _context.Autores.Remove(autor);
+            await _context.SaveChangesAsync();
+            return true; // Autor eliminado exitosamente
+        }
+
+        // ================================
+        // BÚSQUEDAS Y CONSULTAS ESPECÍFICAS
+        // ================================
+
+        // 1. Búsqueda por título de libro (contiene el texto, ignorando mayúsculas/minúsculas)
+        /// <summary>
+        /// Busca de forma asincrónica los libros cuyo título contiene el texto especificado, sin distinguir entre
+        /// mayúsculas y minúsculas.
+        /// </summary>
+        /// <param name="texto">El texto a buscar dentro de los títulos de los libros. No distingue entre mayúsculas y minúsculas.</param>
+        /// <returns>Una lista de objetos Libro que contienen el texto especificado en su título. Si no se encuentran
+        /// coincidencias, se devuelve una lista vacía.</returns>
+        public async Task<List<Libro>> BuscarLibrosPorTituloAsync(string texto)
+        {
+            return await _context.Libros
+                .Include(l => l.Autores)
+                //.Where(l => l.Titulo.Contains(texto, StringComparison.OrdinalIgnoreCase))
+                .Where(l => l.Titulo.ToLower().Contains(texto.ToLower()))
+                .ToListAsync();
+        }
+
+
+        // 2. Búsqueda de libros por año de publicación 
+        /// <summary>
+        /// Busca de forma asincrónica los libros cuyo año de publicación es igual al año especificado.
+        /// </summary>
+        /// <param name="anio">El año de publicación de los libros a buscar.</param>
+        /// <returns>Una lista de objetos Libro que cumplen con el criterio de búsqueda. Si no se encuentran
+        /// coincidencias, se devuelve una lista vacía.</returns>
+        public async Task<List<Libro>> BuscarLibrosPorAnioAsync(int anio)
+        {
+            return await _context.Libros
+                .Include(l => l.Autores)
+                .Where(l => l.Anio == anio)
+                .ToListAsync();
+        }
+
+
+        // 3. Búsqueda por nombre de autor (contiene el texto, ignorando mayúsculas/minúsculas)
+        /// <summary>
+        /// Busca de forma asincrónica los autores cuyo nombre contiene el texto especificado, sin distinguir entre
+        /// mayúsculas y minúsculas.
+        /// </summary>
+        /// <param name="texto">El texto a buscar dentro de los nombres de los autores. No distingue entre mayúsculas y minúsculas.</param>
+        /// <returns>Una lista de objetos Autor que contienen el texto especificado en su nombre. Si no se encuentran
+        /// coincidencias, se devuelve una lista vacía.</returns>
+        public async Task<List<Autor>> BuscarAutoresPorNombreAsync(string texto)
+        {
+            return await _context.Autores
+                .Where(a => a.Nombre.ToLower().Contains(texto.ToLower()))
+                .ToListAsync();
+        }
+
+        // 4. Búsqueda de los libros de un autor por nombre del autor (contiene el texto, ignorando mayúsculas/minúsculas)
+        /// <summary>
+        /// Busca de forma asincrónica los libros que tiene al menos un autor que contiene el texto especificado en su nombre, sin distinguir entre
+        /// mayúsculas y minúsculas.
+        /// </summary>
+        /// <param name="texto">El texto a buscar dentro de los nombres de los autores. No distingue entre mayúsculas y minúsculas.</param>
+        /// <returns>Una lista de objetos Libro que contienen el texto especificado en el nombre de su autor. Si no se encuentran
+        /// coincidencias, se devuelve una lista vacía.</returns>
+        public async Task<List<Libro>> BuscarLibrosPorNombreAutorAsync(string texto)
+        {
+            return await _context.Libros
+                .Include(l => l.Autores)
+                // Any verifica si al menos un autor del libro cumple con la condición de contener el texto en su nombre, ignorando mayúsculas/minúsculas
+                .Where(l => l.Autores.Any(a => a.Nombre.ToLower().Contains(texto.ToLower())))
+                .ToListAsync();
+        }
     }
 }

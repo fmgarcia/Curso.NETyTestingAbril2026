@@ -117,11 +117,23 @@
                 : "No se pudo actualizar el libro")}");
         }
 
+        static async Task EliminarLibroAutor()
+        {
+            int idAutorEliminar = 5; // ID del autor a eliminar
+            bool autorEliminado = await servicio.EliminarAutorAsync(idAutorEliminar);
+            Console.WriteLine(autorEliminado ? $"Autor con ID {idAutorEliminar} eliminado." : $"No se pudo eliminar el autor con ID {idAutorEliminar}.");
+            int idLibroEliminar = 5; // ID del libro a eliminar
+            bool libroEliminado = await servicio.EliminarLibroAsync(idLibroEliminar);
+            Console.WriteLine(libroEliminado ? $"Libro con ID {idLibroEliminar} eliminado." : $"No se pudo eliminar el libro con ID {idLibroEliminar}.");
+        }
+
+
         static async Task Main(string[] args)
         {
             //await CrearAutoresLibros();
             //await MostrasDatosLibrosAutores();
-            await ActualizarLibroAutor();
+            //await ActualizarLibroAutor();
+            //await EliminarLibroAutor();
 
 
         }
