@@ -12,7 +12,7 @@ namespace Biblioteca
     // Es lo que se conoce como una capa de servicio, que actúa como intermediaria entre el controlador (o la interfaz de usuario) y el contexto de la base de datos.
     // Es un manejador de la lógica de negocio, y es donde se implementarán los métodos para interactuar con los datos de la biblioteca.
 
-    internal class BibliotecaService
+    public class BibliotecaService
     {
         private readonly BibliotecaContext _context = new BibliotecaContext();
 

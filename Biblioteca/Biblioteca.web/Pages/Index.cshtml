@@ -1,10 +1,164 @@
 ﻿@page
 @model IndexModel
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "Biblioteca Dashboard";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container mt-4">
+    <div class="text-center mb-4">
+        <h1 class="display-5 text-primary">📚 Panel de Control de la Biblioteca</h1>
+        <p class="text-muted">Demostración de CRUD Completo y Relaciones N:M con Entity Framework Core</p>
+    </div>
+
+    <ul class="nav nav-tabs mb-4" id="pestanasBiblioteca" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active fs-5" id="libros-tab" data-bs-toggle="tab" data-bs-target="#seccionLibros" type="button" role="tab">Libros</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link fs-5" id="autores-tab" data-bs-toggle="tab" data-bs-target="#seccionAutores" type="button" role="tab">Autores</button>
+        </li>
+    </ul>
+
+    <div class="tab-content" id="contenidoPestanas">
+        
+        <div class="tab-pane fade show active" id="seccionLibros" role="tabpanel">
+            <div class="row">
+                <div class="col-lg-8 mb-4">
+                    <form method="get" class="d-flex mb-3">
+                        <input type="text" asp-for="BuscarLibro" class="form-control me-2" placeholder="Buscar libro por título..." />
+                        <button type="submit" class="btn btn-primary">🔍</button>
+                    </form>
+
+                    <div class="card shadow-sm border-0">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Título</th>
+                                    <th>ISBN</th>
+                                    <th>Año</th>
+                                    <th>Autor(es)</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var libro in Model.Libros)
+                                {
+                                    <tr>
+                                        <td>@libro.Id</td>
+                                        <td class="fw-bold text-primary">@libro.Titulo</td>
+                                        <td><code>@libro.ISBN</code></td>
+                                        <td><span class="badge bg-secondary">@libro.Anio</span></td>
+                                        <td>
+                                            @foreach (var autor in libro.Autores)
+                                            {
+                                                <span class="badge bg-info text-dark me-1">👤 @autor.Nombre</span>
+                                            }
+                                        </td>
+                                        <td>
+                                            <form method="post" asp-page-handler="EliminarLibro" asp-route-id="@libro.Id" onsubmit="return confirm('¿Seguro que deseas borrar este libro?');">
+                                                <button type="submit" class="btn btn-sm btn-danger">🗑️ Borrar</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="card shadow-sm border-primary">
+                        <div class="card-header bg-primary text-white fw-bold">✨ Añadir Nuevo Libro</div>
+                        <div class="card-body">
+                            <form method="post" asp-page-handler="CrearLibro">
+                                <div class="mb-2">
+                                    <label class="form-label">Título</label>
+                                    <input type="text" asp-for="NuevoLibro.Titulo" class="form-control" required />
+                                </div>
+                                <div class="mb-2">
+                                    <label class="form-label">ISBN</label>
+                                    <input type="text" asp-for="NuevoLibro.ISBN" class="form-control" required />
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Año de Publicación</label>
+                                    <input type="number" asp-for="NuevoLibro.Anio" class="form-control" required />
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Seleccionar Autor(es) (Relación N:M)</label>
+                                    <select asp-for="IdsAutoresSeleccionados" class="form-select" multiple style="height: 120px;" required>
+                                        @foreach (var autor in Model.Autores)
+                                        {
+                                            <option value="@autor.Id">@autor.Nombre (@autor.Pais)</option>
+                                        }
+                                    </select>
+                                    <small class="text-muted">Usa Ctrl (o Cmd en Mac) para seleccionar múltiples autores.</small>
+                                </div>
+                                <button type="submit" class="btn btn-success w-100 fw-bold">Guardar Libro</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-pane fade" id="seccionAutores" role="tabpanel">
+            <div class="row">
+                <div class="col-lg-8 mb-4">
+                    <form method="get" class="d-flex mb-3">
+                        <input type="text" asp-for="BuscarAutor" class="form-control me-2" placeholder="Buscar autor por nombre..." />
+                        <button type="submit" class="btn btn-primary">🔍</button>
+                    </form>
+
+                    <div class="card shadow-sm border-0">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nombre Completo</th>
+                                    <th>País de Origen</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var autor in Model.Autores)
+                                {
+                                    <tr>
+                                        <td>@autor.Id</td>
+                                        <td class="fw-bold">@autor.Nombre</td>
+                                        <td><span class="badge bg-secondary">@autor.Pais</span></td>
+                                        <td>
+                                            <form method="post" asp-page-handler="EliminarAutor" asp-route-id="@autor.Id" onsubmit="return confirm('¿Borrar este autor? Se desvinculará de los libros en los que participe.');">
+                                                <button type="submit" class="btn btn-sm btn-danger">🗑️ Borrar</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="card shadow-sm border-dark">
+                        <div class="card-header bg-dark text-white fw-bold">✨ Registrar Nuevo Autor</div>
+                        <div class="card-body">
+                            <form method="post" asp-page-handler="CrearAutor">
+                                <div class="mb-2">
+                                    <label class="form-label">Nombre del Autor</label>
+                                    <input type="text" asp-for="NuevoAutor.Nombre" class="form-control" required />
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">País</label>
+                                    <input type="text" asp-for="NuevoAutor.Pais" class="form-control" required />
+                                </div>
+                                <button type="submit" class="btn btn-dark w-100 fw-bold">Guardar Autor</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
 </div>

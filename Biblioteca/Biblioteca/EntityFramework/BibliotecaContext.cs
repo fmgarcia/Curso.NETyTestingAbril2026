@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Biblioteca
 {
-    internal class BibliotecaContext : DbContext
+    public class BibliotecaContext : DbContext
     {
 
         public DbSet<Autor> Autores { get; set; } = null!;
