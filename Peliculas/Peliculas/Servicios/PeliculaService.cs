@@ -9,7 +9,17 @@ namespace Peliculas
 {
     public class PeliculaService
     {
-        private readonly PeliculaContext _context = new PeliculaContext();
+        private readonly PeliculaContext _context;
+
+        public PeliculaService()
+        {
+            _context = new PeliculaContext();
+        }
+
+        public PeliculaService(PeliculaContext context)
+        {
+            _context = context;
+        }
 
         /// <summary>
         /// Crea una nueva película en la base de datos de forma asíncrona.

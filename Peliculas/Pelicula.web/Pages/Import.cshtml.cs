@@ -15,6 +15,10 @@ namespace Pelicula.web.Pages
         [BindProperty]
         public string OmdbApiKey { get; set; } = string.Empty;
 
+        // Lista temporal estática u oculta en sesión para mostrar los mensajes. 
+        // Para simplificar la demo, los guardaremos en TempData, lo cual es ideal para mensajes entre Post/Get en web.
+        public List<string> MensajesOperacion { get; set; } = new List<string>();
+
         public void OnGet()
         {
         }
@@ -27,11 +31,22 @@ namespace Pelicula.web.Pages
                 return Page();
             }
 
-            // Llamamos al método utilitario
-            await UtilidadesImdb.PoblarBaseDatosImdbAsync(ImdbIDInicial, NumeroPeliculas, OmdbApiKey);
+            // Realizamos la importación aquí e iteramos directamente.
+            var listaMensajes = new List<string>();
 
-            // Tras la importación finalizada, devolvemos al usuario al índice principal de películas
-            return RedirectToPage("./Index");
+            // Para no sobrecargar la UI web con 100 llamadas HTTP de muy larga duración, 
+            // este es un bucle que bloqueará al usuario hasta finalizar. 
+            // En proyectos muy grandes esto debiese ser manejado por WebSockets (SignalR) o colas.
+            for (int i = ImdbIDInicial; i < ImdbIDInicial + NumeroPeliculas; i++)
+            {
+                string status = await UtilidadesImdb.ImportarPeliculaIndividualAsync(i, OmdbApiKey);
+                listaMensajes.Add(status);
+            }
+
+            TempData["MensajesImportacion"] = string.Join("||", listaMensajes);
+
+            // Volvemos a trazar la vista para poder mostrar el log
+            return RedirectToPage("./Import");
         }
     }
 }

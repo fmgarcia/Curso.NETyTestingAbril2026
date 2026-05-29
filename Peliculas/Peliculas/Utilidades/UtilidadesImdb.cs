@@ -18,40 +18,47 @@ namespace Peliculas
             return numero.ToString("D7");
         }
 
+        // Método extraído que procesa una única película de forma íntegra para poder llamarla paso a paso desde el Frontend
+        public static async Task<string> ImportarPeliculaIndividualAsync(int i, string key)
+        {
+            string imdbIDNumerico = CambiarNumeroAImdbID(i);
+            string imdbIDCompleto = $"tt{imdbIDNumerico}";
+            string url = $"{URL_BASE}{imdbIDNumerico}{PARAMETROS}{key}";
+            
+            try
+            {
+                var peliculaExistente = await peliculaService.ObtenerPeliculaPorIdAsync(imdbIDCompleto);
+                if (peliculaExistente != null)
+                {
+                    return $"⚠️ Omitido: {imdbIDCompleto} ya está registrada.";
+                }
+
+                Pelicula pelicula = await UtilidadesJson<Pelicula>.DescargarJsonAsincrono(url); 
+
+                if (pelicula != null && !string.IsNullOrWhiteSpace(pelicula.Title) && pelicula.Title != "N/A")
+                {
+                    if (string.IsNullOrWhiteSpace(pelicula.ImdbID) || pelicula.ImdbID == "N/A")
+                        pelicula.ImdbID = imdbIDCompleto;
+
+                    await peliculaService.CrearPeliculaAsync(pelicula);
+                    return $"✅ Insertado: {imdbIDCompleto} ('{pelicula.Title}') añadida con éxito.";
+                }
+                
+                return $"❌ Ignorado: {imdbIDCompleto} devuelto como nulo o no encontrado en OMDB.";
+            }
+            catch (Exception excepcion)
+            {
+                return $"💥 Error: Excepción procesando {imdbIDCompleto} ({excepcion.Message}).";
+            }
+        }
+
+        // Mantenemos el método general por si se invoca desde la consola u otros clientes
         public static async Task PoblarBaseDatosImdbAsync(int imdbIDInicial, int numeroPeliculas, string key)
         {
             for (int i = imdbIDInicial; i < imdbIDInicial + numeroPeliculas; i++)
             {
-                string imdbIDNumerico = CambiarNumeroAImdbID(i);
-                string imdbIDCompleto = $"tt{imdbIDNumerico}";
-                string url = $"{URL_BASE}{imdbIDNumerico}{PARAMETROS}{key}";
-                try
-                {
-                    // 1. Verificamos si la película ya existe para no intentar insertarla de nuevo
-                    var peliculaExistente = await peliculaService.ObtenerPeliculaPorIdAsync(imdbIDCompleto);
-                    if (peliculaExistente != null)
-                    {
-                        continue; // Ya existe en la base de datos, pasamos a la siguiente
-                    }
-
-                    // 2. Descargar de forma asíncrona (usamos await en lugar de .Result)
-                    Pelicula pelicula = await UtilidadesJson<Pelicula>.DescargarJsonAsincrono(url); 
-
-                    // 3. Validar si el JSON obtenido tenía realmente formato de película (y no un error de OMDB como "Movie not found!")
-                    if (pelicula != null && !string.IsNullOrWhiteSpace(pelicula.Title) && pelicula.Title != "N/A")
-                    {
-                        // Aseguramos que el identificador está bien formateado
-                        if (string.IsNullOrWhiteSpace(pelicula.ImdbID) || pelicula.ImdbID == "N/A")
-                            pelicula.ImdbID = imdbIDCompleto;
-
-                        await peliculaService.CrearPeliculaAsync(pelicula);
-                    }
-                }
-                catch (Exception excepcion)
-                {
-                    // 4. Si el JSON no pudo parsearse o hubo otro fallo, imprimimos en consola y el bucle continúa
-                    Console.WriteLine($"Error al procesar la película con IMDb ID {imdbIDCompleto}: {excepcion.Message}");
-                }
+                string mensaje = await ImportarPeliculaIndividualAsync(i, key);
+                Console.WriteLine(mensaje);
             }
         }
 

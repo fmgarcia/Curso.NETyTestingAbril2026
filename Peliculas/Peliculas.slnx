@@ -1,4 +1,5 @@
 <Solution>
+  <Project Path="Pelicula.test/Pelicula.test.csproj" />
   <Project Path="Pelicula.web/Pelicula.web.csproj" />
   <Project Path="Peliculas/Peliculas.csproj" />
 </Solution>
