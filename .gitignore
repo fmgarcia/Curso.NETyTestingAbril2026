@@ -35,3 +35,7 @@
 **/*.vspx
 **/*.diag
 **/*.diagsession
+
+# Archivos de DBContext
+**/*.db-shm
+**/*.db-wal
