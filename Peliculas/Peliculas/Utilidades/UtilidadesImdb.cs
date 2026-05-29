@@ -18,7 +18,7 @@ namespace Peliculas
             return numero.ToString("D7");
         }
 
-        public static void PoblarBaseDatosImdb(int imdbIDInicial, int numeroPeliculas, string key)
+        public static async Task PoblarBaseDatosImdbAsync(int imdbIDInicial, int numeroPeliculas, string key)
         {
             for (int i = imdbIDInicial; i < imdbIDInicial + numeroPeliculas; i++)
             {
@@ -27,7 +27,7 @@ namespace Peliculas
                 try
                 {
                     Pelicula pelicula = UtilidadesJson<Pelicula>.DescargarJsonAsincrono(url).Result; // Aquí puedes llamar a UtilidadesJson.DescargarJsonAsincrono(url) para obtener los datos
-                    peliculaService.CrearPeliculaAsync(pelicula).Wait();
+                    await peliculaService.CrearPeliculaAsync(pelicula);
                 }
                 catch (Exception excepcion)
                 {
@@ -38,5 +38,20 @@ namespace Peliculas
         }
 
 
+        public static async Task MejorPeliculaPorGeneroAsync()
+        {
+            var mejorPeliculaPorGenero = await peliculaService.ObtenerMejorPeliculaPorGeneroAsync();
+            foreach (var genero in mejorPeliculaPorGenero.Keys)
+            {
+                Console.WriteLine($"Género: {genero}, Mejor Película: {mejorPeliculaPorGenero[genero].Title}, Puntuación: {mejorPeliculaPorGenero[genero].ImdbRating}");
+            }
+        }
+
+        public static async Task DirectorConMasPeliculas()
+        {
+            var directorConMasPeliculas = await peliculaService.ObtenerDirectorConMasPeliculasAsync();
+            Console.WriteLine($"Director con más películas: {directorConMasPeliculas.Director}, Cantidad de películas: {directorConMasPeliculas.Cantidad}");
+
+        }
     }
 }

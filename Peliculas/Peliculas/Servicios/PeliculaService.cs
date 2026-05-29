@@ -20,11 +20,65 @@ namespace Peliculas
         /// película creada.</returns>
         public async Task<string> CrearPeliculaAsync(Pelicula pelicula)
         {
-            _context.Peliculas.Add(pelicula);
-            await _context.SaveChangesAsync();
-            return pelicula.ImdbID;
+            try
+            {
+                _context.Peliculas.Add(pelicula);
+                await _context.SaveChangesAsync();
+                return pelicula.ImdbID;
+            }
+            catch (Exception excepcion)
+            {
+                Console.WriteLine($"Error al crear la película: {excepcion.Message}");
+                return string.Empty;
+            }
         }
 
 
+        // Consultas sobre películas
+
+        // Quiero devolver la mejor película por género, es decir, la película con el rating de IMDB más alto para un género específico.
+        // El método debe ser asíncrono y devolver para cada género la película con el rating más alto.
+        // El resultado debe ser un diccionario donde la clave es el género y el valor es la película correspondiente.
+        public async Task<Dictionary<string, Pelicula>> ObtenerMejorPeliculaPorGeneroAsync()
+        {
+            try
+            {
+                var peliculas = await _context.Peliculas.ToListAsync();
+                var resultado = peliculas
+                    .GroupBy(p => p.Genre)
+                    .ToDictionary(
+                        g => g.Key,
+                        g => g.OrderByDescending(p => p.ImdbRating).FirstOrDefault()
+                    );
+                return resultado!;
+            }
+            catch (Exception excepcion)
+            {
+                Console.WriteLine($"Error al obtener la mejor película por género: {excepcion.Message}");
+                return new Dictionary<string, Pelicula>();
+            }
+        }
+
+
+        // Quiero obtener el director con más películas en la base de datos.
+        // El método debe ser asíncrono y devolver el nombre del director que tiene la mayor cantidad de películas registradas, junto con el número de películas que ha dirigido.
+        public async Task<(string Director, int Cantidad)> ObtenerDirectorConMasPeliculasAsync()
+        {
+            try
+            {
+                var peliculas = await _context.Peliculas.ToListAsync();
+                var directorConMasPeliculas = peliculas
+                    .GroupBy(p => p.Director)
+                    .OrderByDescending(g => g.Count())
+                    .Select(g => (Director: g.Key, Cantidad: g.Count()))
+                    .FirstOrDefault();
+                return directorConMasPeliculas;
+            }
+            catch (Exception excepcion)
+            {
+                Console.WriteLine($"Error al obtener el director con más películas: {excepcion.Message}");
+                return (string.Empty, 0);
+            }
+        }
     }
 }

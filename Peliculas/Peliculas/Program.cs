@@ -4,21 +4,36 @@
     {
 
         static string KEY = "892e624f";
-        static int NUMERO_PELICULAS = 5;
-        static int IMDB_ID_INICIAL = 1;
+        static int NUMERO_PELICULAS = 100;
+        static int IMDB_ID_INICIAL = 16;
 
 
 
 
-        static void CargaInicial()
+        static async Task CargaInicial()
         {
-            UtilidadesImdb.PoblarBaseDatosImdb(IMDB_ID_INICIAL, NUMERO_PELICULAS, KEY);
+            await UtilidadesImdb.PoblarBaseDatosImdbAsync(IMDB_ID_INICIAL, NUMERO_PELICULAS, KEY);
+            Console.WriteLine("Peliculas cargadas correctamente");
 
         }
 
-        static void Main(string[] args)
+        static async Task MejorPeliculaPorGenero()
         {
-            CargaInicial();
+            Console.WriteLine("Géneros:");
+            await UtilidadesImdb.MejorPeliculaPorGeneroAsync();
+
+        }
+
+        static async Task LLamarDirectorConMasPeliculas()
+        {
+            await UtilidadesImdb.DirectorConMasPeliculas();
+        }
+
+        static async Task Main(string[] args)
+        {
+            //await CargaInicial();
+            await MejorPeliculaPorGenero();
+            await LLamarDirectorConMasPeliculas();
         }
     }
 }
