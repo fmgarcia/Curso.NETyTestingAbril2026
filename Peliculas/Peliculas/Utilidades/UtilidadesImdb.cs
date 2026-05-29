@@ -22,17 +22,35 @@ namespace Peliculas
         {
             for (int i = imdbIDInicial; i < imdbIDInicial + numeroPeliculas; i++)
             {
-                string imdbID = CambiarNumeroAImdbID(i);
-                string url = $"{URL_BASE}{imdbID}{PARAMETROS}{key}";
+                string imdbIDNumerico = CambiarNumeroAImdbID(i);
+                string imdbIDCompleto = $"tt{imdbIDNumerico}";
+                string url = $"{URL_BASE}{imdbIDNumerico}{PARAMETROS}{key}";
                 try
                 {
-                    Pelicula pelicula = UtilidadesJson<Pelicula>.DescargarJsonAsincrono(url).Result; // Aquí puedes llamar a UtilidadesJson.DescargarJsonAsincrono(url) para obtener los datos
-                    await peliculaService.CrearPeliculaAsync(pelicula);
+                    // 1. Verificamos si la película ya existe para no intentar insertarla de nuevo
+                    var peliculaExistente = await peliculaService.ObtenerPeliculaPorIdAsync(imdbIDCompleto);
+                    if (peliculaExistente != null)
+                    {
+                        continue; // Ya existe en la base de datos, pasamos a la siguiente
+                    }
+
+                    // 2. Descargar de forma asíncrona (usamos await en lugar de .Result)
+                    Pelicula pelicula = await UtilidadesJson<Pelicula>.DescargarJsonAsincrono(url); 
+
+                    // 3. Validar si el JSON obtenido tenía realmente formato de película (y no un error de OMDB como "Movie not found!")
+                    if (pelicula != null && !string.IsNullOrWhiteSpace(pelicula.Title) && pelicula.Title != "N/A")
+                    {
+                        // Aseguramos que el identificador está bien formateado
+                        if (string.IsNullOrWhiteSpace(pelicula.ImdbID) || pelicula.ImdbID == "N/A")
+                            pelicula.ImdbID = imdbIDCompleto;
+
+                        await peliculaService.CrearPeliculaAsync(pelicula);
+                    }
                 }
                 catch (Exception excepcion)
                 {
-                    Console.WriteLine($"Error al procesar la película con IMDb ID {imdbID}: {excepcion.Message}");
-
+                    // 4. Si el JSON no pudo parsearse o hubo otro fallo, imprimimos en consola y el bucle continúa
+                    Console.WriteLine($"Error al procesar la película con IMDb ID {imdbIDCompleto}: {excepcion.Message}");
                 }
             }
         }

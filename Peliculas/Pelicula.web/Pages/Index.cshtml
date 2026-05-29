@@ -1,0 +1,117 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Gestión de Películas";
+}
+
+<div class="container mt-4">
+    <h1 class="mb-4 text-center">Gestión de Películas</h1>
+
+    <!-- Controles de filtrado, búsqueda y creación -->
+    <div class="card mb-4 shadow-sm">
+        <div class="card-body">
+            <form method="get" class="row gx-3 gy-2 align-items-center">
+                
+                <!-- Búsqueda -->
+                <div class="col-sm-4">
+                    <label class="visually-hidden" for="BuscarTitulo">Título</label>
+                    <input type="text" class="form-control" id="BuscarTitulo" name="BuscarTitulo" value="@Model.BuscarTitulo" placeholder="Buscar por título...">
+                </div>
+
+                <!-- Ordenamiento -->
+                <div class="col-sm-3">
+                    <label class="visually-hidden" for="OrdenPor">Ordenar Por</label>
+                    <select class="form-select" id="OrdenPor" name="OrdenPor" asp-for="OrdenPor">
+                        <option value="">-- Ordenar Por --</option>
+                        <option value="Titulo">Título (A-Z)</option>
+                        <option value="TituloDesc">Título (Z-A)</option>
+                        <option value="Anio">Año (Ascendente)</option>
+                        <option value="AnioDesc">Año (Descendente)</option>
+                        <option value="Rating">Rating (Ascendente)</option>
+                        <option value="RatingDesc">Rating (Descendente)</option>
+                    </select>
+                </div>
+
+                <!-- Elementos por página -->
+                <div class="col-sm-2">
+                    <label class="visually-hidden" for="ElementosPorPagina">Mostrar</label>
+                    <select class="form-select" id="ElementosPorPagina" name="ElementosPorPagina" asp-for="ElementosPorPagina" asp-items="Model.OpcionesPaginacion">
+                    </select>
+                </div>
+
+                <!-- Botones y Acción -->
+                <div class="col-sm-4 d-flex gap-2 justify-content-end">
+                    <button type="submit" class="btn btn-primary">Filtrar</button>
+                    <a asp-page="./Create" class="btn btn-success">+ Nuevo</a>
+                    <a asp-page="./Import" class="btn btn-info text-white">Importar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Lista de Películas -->
+    @if (Model.Peliculas != null && Model.Peliculas.Any())
+    {
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+            @foreach (var p in Model.Peliculas)
+            {
+                <div class="col">
+                    <div class="card h-100 shadow-sm border-0">
+                        @if (!string.IsNullOrEmpty(p.Poster))
+                        {
+                            // En caso de que la URL de poster no exista, se puede poner un placeholder, aquí usaremos la url directamente
+                            <img src="@p.Poster" class="card-img-top" alt="Poster de @p.Title" style="max-height: 400px; object-fit: cover;">
+                        }
+                        
+                        <div class="card-body">
+                            <h5 class="card-title text-truncate">@p.Title</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">@p.Year | @p.Genre</h6>
+                            <p class="card-text mb-1">
+                                <strong>Director:</strong> @p.Director <br />
+                                <strong>IMDb:</strong> ⭐ @p.ImdbRating/10
+                            </p>
+                        </div>
+                        
+                        <div class="card-footer bg-transparent border-top-0 d-flex justify-content-between">
+                            <!-- Nota: Botón editar requiere página Edit.cshtml -->
+                            <a asp-page="./Edit" asp-route-imdbID="@p.ImdbID" class="btn btn-sm btn-outline-primary px-3">Editar</a>
+                            
+                            <!-- Borrado con POST directo en la página índex -->
+                            <form method="post" asp-page-handler="Eliminar" onsubmit="return confirm('¿Está seguro de que desea eliminar la película @p.Title?');">
+                                <input type="hidden" name="imdbID" value="@p.ImdbID" />
+                                <button type="submit" class="btn btn-sm btn-outline-danger px-3">Eliminar</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <!-- Paginación -->
+        @if (string.IsNullOrWhiteSpace(Model.BuscarTitulo))
+        {
+            <div class="d-flex justify-content-center mt-4">
+                <nav aria-label="Navegación de páginas">
+                    <ul class="pagination">
+                        <li class="page-item @(Model.PaginaActual <= 1 ? "disabled" : "")">
+                            <a class="page-link" asp-route-PaginaActual="@(Model.PaginaActual - 1)" asp-route-ElementosPorPagina="@Model.ElementosPorPagina" asp-route-OrdenPor="@Model.OrdenPor">Anterior</a>
+                        </li>
+                        <li class="page-item disabled">
+                            <span class="page-link">Página @Model.PaginaActual</span>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" asp-route-PaginaActual="@(Model.PaginaActual + 1)" asp-route-ElementosPorPagina="@Model.ElementosPorPagina" asp-route-OrdenPor="@Model.OrdenPor">Siguiente</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        }
+    }
+    else
+    {
+        <div class="alert alert-info" role="alert">
+            No se han encontrado películas con los filtros seleccionados.
+        </div>
+    }
+
+</div>

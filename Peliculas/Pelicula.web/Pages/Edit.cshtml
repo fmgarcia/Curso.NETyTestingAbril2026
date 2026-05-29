@@ -1,0 +1,74 @@
+@page "{imdbID}"
+@model Pelicula.web.Pages.EditModel
+@{
+    ViewData["Title"] = "Editar Película";
+}
+
+<div class="container mt-4">
+    <h2>Editar Película</h2>
+    <hr />
+
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <form method="post">
+                        <!-- Permite que Entity Framework valide los datos -->
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                        <!-- El ID es oculto o de sólo lectura en una edición normal -->
+                        <div class="form-group mb-3">
+                            <label asp-for="PeliculaData.ImdbID" class="control-label">IMDb ID</label>
+                            <input asp-for="PeliculaData.ImdbID" class="form-control" readonly />
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label asp-for="PeliculaData.Title" class="control-label">Título</label>
+                            <input asp-for="PeliculaData.Title" class="form-control" />
+                            <span asp-validation-for="PeliculaData.Title" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label asp-for="PeliculaData.Year" class="control-label">Año</label>
+                            <input asp-for="PeliculaData.Year" class="form-control" type="number" />
+                            <span asp-validation-for="PeliculaData.Year" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label asp-for="PeliculaData.Genre" class="control-label">Género</label>
+                            <input asp-for="PeliculaData.Genre" class="form-control" />
+                            <span asp-validation-for="PeliculaData.Genre" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label asp-for="PeliculaData.Director" class="control-label">Director</label>
+                            <input asp-for="PeliculaData.Director" class="form-control" />
+                            <span asp-validation-for="PeliculaData.Director" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label asp-for="PeliculaData.ImdbRating" class="control-label">Calificación (IMDb)</label>
+                            <input asp-for="PeliculaData.ImdbRating" type="number" step="0.1" class="form-control" />
+                            <span asp-validation-for="PeliculaData.ImdbRating" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group mb-4">
+                            <label asp-for="PeliculaData.Poster" class="control-label">URL del Póster</label>
+                            <input asp-for="PeliculaData.Poster" class="form-control" placeholder="https://..." />
+                            <span asp-validation-for="PeliculaData.Poster" class="text-danger"></span>
+                        </div>
+
+                        <div class="d-flex justify-content-between">
+                            <a asp-page="./Index" class="btn btn-outline-secondary">Volver al listado</a>
+                            <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

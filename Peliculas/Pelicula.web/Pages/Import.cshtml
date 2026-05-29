@@ -1,0 +1,55 @@
+@page
+@model Pelicula.web.Pages.ImportModel
+@{
+    ViewData["Title"] = "Importar Películas";
+}
+
+<div class="container mt-4">
+    <h2>Importar Rango de Películas desde OMDB</h2>
+    <hr />
+
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <p class="text-muted">
+                        Agregará automáticamente un rango secuencial de películas desde OMDB a nuestra base de datos local.
+                        Ignorará las películas que ya existan o aquellas donde el JSON provisto no sea una película válida.
+                    </p>
+
+                    <form method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                        <div class="form-group mb-3">
+                            <label asp-for="ImdbIDInicial" class="control-label">IMDb ID Inicial (solo el número)</label>
+                            <input asp-for="ImdbIDInicial" class="form-control" type="number" />
+                            <small class="form-text text-muted">Ejemplo: 111161 (Corresponde a "tt0111161")</small>
+                            <span asp-validation-for="ImdbIDInicial" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label asp-for="NumeroPeliculas" class="control-label">Número de Películas a Importar</label>
+                            <input asp-for="NumeroPeliculas" class="form-control" type="number" min="1" max="100"/>
+                            <span asp-validation-for="NumeroPeliculas" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group mb-4">
+                            <label asp-for="OmdbApiKey" class="control-label">OMDB API Key</label>
+                            <input asp-for="OmdbApiKey" class="form-control" placeholder="Inserte su API Key aquí..." />
+                            <span asp-validation-for="OmdbApiKey" class="text-danger"></span>
+                        </div>
+
+                        <div class="d-flex justify-content-between">
+                            <a asp-page="./Index" class="btn btn-outline-secondary">Volver al listado</a>
+                            <button type="submit" class="btn btn-primary">Iniciar Importación</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
