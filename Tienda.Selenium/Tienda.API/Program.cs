@@ -27,7 +27,7 @@ public static class ApiHost
               <input id="email" name="email" />
               <label for="password">Password</label>
               <input id="password" name="password" type="password" />
-              <button type="submit">Entrar</button>
+              <button id="loginButton" type="submit">Entrar</button>
             </form>
             <a href="/registro">Crear cuenta</a>
             """), "text/html"));
@@ -112,7 +112,7 @@ public static class ApiHost
             <input id="buscar" placeholder="Buscar productos" />
             <main>{{items}}</main>
             <output data-testid="total">{{ProductoStore.All().Count}}</output>
-            <a href="/productos/nuevo">Nuevo producto</a>
+            <a id="nuevo-producto" href="/productos/nuevo">Nuevo producto</a>
             """);
     }
 
@@ -132,7 +132,7 @@ public static class ApiHost
               <input id="precio" name="precio" value="0" />
               <label for="stock">Stock</label>
               <input id="stock" name="stock" value="0" />
-              <button type="submit" data-testid="guardar-producto">Guardar</button>
+              <button id="boton-aceptar" type="submit" data-testid="guardar-producto">Guardar</button>
             </form>
             """);
     }

@@ -6,5 +6,8 @@ namespace Tienda.E2E.Tests.Pages
 {
     internal class LoginPage
     {
+
+
+
     }
 }
