@@ -48,7 +48,7 @@ namespace Tienda.E2E.Tests.Test
 
             Driver.FindElement(By.Id("boton-aceptar")).Click(); // Hace clic en el botón de agregar producto
             // Assert
-            IWebElement error = Wait.Until(e => e.FindElement(By.CssSelector("validation-error"))); // Espera a que aparezca el mensaje de error
+            IWebElement error = Wait.Until(e => e.FindElement(By.CssSelector(".validation-error"))); // Espera a que aparezca el mensaje de error
             Assert.That(error.Text, Does.Contain("El nombre es obligatorio")); // Verifica que el mensaje de error sea el esperado
         }
 
