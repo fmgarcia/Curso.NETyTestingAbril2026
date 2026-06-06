@@ -39,5 +39,30 @@ namespace Tienda.E2E.Tests.Test
         }
 
 
+        [Test]
+        public async Task ApiAnyadirProducto_Correcto()
+        {
+            await using IAPIRequestContext request = await Playwright.APIRequest.NewContextAsync(new()
+            {
+                BaseURL = TestSettings.BaseUrl,
+                IgnoreHTTPSErrors = true
+            });
+
+
+            IAPIResponse response = await request.PostAsync("/api/productos", new()
+            {
+                DataObject = new
+                {
+                    nombre = "Webcam",
+                    categoria = "Perifericos",
+                    precio = 49.99,
+                    stock = 20
+                }
+            });
+
+            Assert.That(response.Status, Is.EqualTo(201));
+        }
+
+
     }
 }

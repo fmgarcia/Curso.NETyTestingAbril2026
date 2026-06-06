@@ -70,7 +70,7 @@ public static class ApiHost
 
         app.MapGet("/api/productos", () => Results.Ok(ProductoStore.All()));
 
-        app.MapPost("/api/test/productos", (Producto producto) =>
+        app.MapPost("/api/productos", (Producto producto) =>
         {
             Producto creado = ProductoStore.Add(producto);
             return Results.Created($"/api/productos/{creado.Id}", creado);
