@@ -1,4 +1,9 @@
 <Solution>
+  <Project Path="Biblioteca.react/biblioteca.react.esproj">
+    <Build />
+    <Deploy />
+  </Project>
   <Project Path="Biblioteca.web/Biblioteca.web.csproj" Id="19995221-f77a-4ef7-a8f2-52e9a72fd8cc" />
+  <Project Path="Biblioteca.webapi/Biblioteca.webapi.csproj" Id="2cfc4003-535d-4ac5-9b40-c263ac4ffa8a" />
   <Project Path="Biblioteca/Biblioteca.csproj" />
 </Solution>
